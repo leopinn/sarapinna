@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Servizi from '../components/Servizi.astro';
+import Contatti from '../components/Contatti.astro';
+---
+
+<Base titolo="Servizi — Sara Pinna" descrizione="Instagram, Airbnb e Booking: i canali dove seguirmi e prenotare i miei appartamenti a Verona.">
+  <div class="testata">
+    <div class="container">
+      <p class="eyebrow">Servizi</p>
+      <h1>Dove trovarmi</h1>
+    </div>
+  </div>
+  <Servizi />
+  <Contatti />
+</Base>
+
+<style>
+  .testata { padding: 160px 0 0; }
+  .testata h1 { margin-top: 24px; max-width: 18em; }
+</style>

@@ -1,0 +1,67 @@
+---
+import { site } from '../data/site.js';
+---
+
+<section class="hero">
+  <video class="hero__video" src="/media/verona-hero.mp4" autoplay muted loop playsinline preload="auto"></video>
+  <div class="hero__scrim"></div>
+  <div class="hero__content container">
+    <p class="eyebrow hero__eyebrow" data-reveal-hero>{site.claim}</p>
+    <h1 data-reveal-hero>A Verona, come se fosse casa tua</h1>
+    <p class="hero__testo" data-reveal-hero>
+      Mi chiamo Sara. Affitto appartamenti tra Isola della Scala e Verona e mi occupo di ogni
+      soggiorno di persona, dalle chiavi ai consigli sul posto giusto per cena.
+    </p>
+    <div class="hero__azioni" data-reveal-hero>
+      <a class="btn" href="/servizi">Dove prenotare</a>
+      <a class="btn btn--ghost" href="/chi-sono">Conoscimi</a>
+    </div>
+    <div class="hero__cue"><span></span> Scorri</div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; height: 100vh; min-height: 620px; background: var(--ink); overflow: hidden; }
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: hero-pan 28s ease-in-out infinite alternate;
+  }
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(25,27,31,.62) 0%, rgba(25,27,31,.35) 42%, rgba(25,27,31,.82) 100%);
+  }
+  .hero__content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 120px;
+    padding-bottom: 56px;
+  }
+  .hero__eyebrow { color: rgba(255,255,255,.72); margin-bottom: 28px; }
+  .hero h1 { color: #fff; max-width: 16em; }
+  .hero__testo { color: rgba(255,255,255,.7); margin-top: 28px; max-width: 34em; }
+  .hero__azioni { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 40px; }
+  .hero__cue {
+    position: absolute;
+    left: 32px;
+    bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,.72);
+  }
+  .hero__cue span {
+    width: 1px;
+    height: 28px;
+    background: rgba(255,255,255,.28);
+    animation: scroll-cue 2.6s ease-in-out infinite;
+  }
+</style>

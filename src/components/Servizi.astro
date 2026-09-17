@@ -1,0 +1,57 @@
+---
+import { servizi } from '../data/site.js';
+---
+
+<section class="section section--soft" id="servizi">
+  <div class="container">
+    <header class="intro" data-reveal>
+      <p class="eyebrow">Servizi</p>
+      <h2>Dove trovarmi e dove prenotare</h2>
+      <p>Tre porte d'ingresso, la stessa accoglienza. Scegli il canale che preferisci.</p>
+    </header>
+    <div class="cards">
+      {servizi.map((s, i) => (
+        <a
+          class="card"
+          href={s.href}
+          target={s.href.startsWith('http') ? '_blank' : null}
+          rel={s.href.startsWith('http') ? 'noopener' : null}
+          style={`--wall:${s.wall};--wall-hover:${s.wallHover};transition-delay:${i * 120}ms`}
+          data-reveal
+        >
+          <div>
+            <div class="card__top">
+              <p class="eyebrow">{s.eyebrow}</p>
+              {s.inArrivo && <span class="tag">In arrivo</span>}
+            </div>
+            <h3>{s.titolo}</h3>
+            <p>{s.testo}</p>
+          </div>
+          <p class="card__cta">{s.cta}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro { max-width: 32em; margin-bottom: 64px; }
+  .intro h2 { margin: 24px 0 16px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; }
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 340px;
+    padding: 32px;
+    background: var(--wall);
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 700ms ease, transform 700ms ease, background 140ms ease;
+  }
+  .card:hover { background: var(--wall-hover); color: var(--ink); text-decoration: none; }
+  .card__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+  .card h3 { margin-bottom: 16px; }
+  .card__cta { font-size: 13px; font-weight: 500; margin-top: 32px; }
+  .tag { font-size: 13px; padding: 4px 12px; border: 1px solid var(--hairline); border-radius: 2px; color: var(--fog); }
+</style>

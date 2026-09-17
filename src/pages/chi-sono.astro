@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import ChiSono from '../components/ChiSono.astro';
+import Servizi from '../components/Servizi.astro';
+---
+
+<Base titolo="Chi sono — Sara Pinna" descrizione="Ho 28 anni e accolgo ospiti tra Isola della Scala e Verona: ogni soggiorno lo curo di persona.">
+  <div class="testata">
+    <div class="container">
+      <p class="eyebrow">Chi sono</p>
+      <h1>Racconto breve, casa vera</h1>
+    </div>
+  </div>
+  <ChiSono />
+  <Servizi />
+</Base>
+
+<style>
+  .testata { padding: 160px 0 0; }
+  .testata h1 { margin-top: 24px; max-width: 18em; }
+</style>

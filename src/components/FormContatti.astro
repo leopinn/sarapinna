@@ -1,0 +1,104 @@
+---
+const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID ?? '';
+const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? '';
+const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? '';
+---
+
+<form
+  class="form"
+  id="form-contatti"
+  data-service={serviceId}
+  data-template={templateId}
+  data-key={publicKey}
+  data-reveal
+>
+  <h3>Richiedi disponibilità</h3>
+  <p class="form__sub">Compila il modulo, ti rispondo via email.</p>
+
+  <div class="form__riga">
+    <label class="field">
+      <span>Nome <span class="req">*</span></span>
+      <input name="nome" type="text" placeholder="Nome" required autocomplete="given-name" />
+    </label>
+    <label class="field">
+      <span>Cognome <span class="req">*</span></span>
+      <input name="cognome" type="text" placeholder="Cognome" required autocomplete="family-name" />
+    </label>
+  </div>
+
+  <label class="field form__campo">
+    <span>Email <span class="req">*</span></span>
+    <input name="email" type="email" placeholder="nome@email.com" required autocomplete="email" />
+  </label>
+
+  <label class="field form__campo">
+    <span>Messaggio <span class="req">*</span></span>
+    <textarea name="messaggio" rows="5" placeholder="Date, numero di ospiti, domande…" required></textarea>
+  </label>
+
+  <div class="form__piede">
+    <button class="btn" type="submit">Invia messaggio</button>
+    <span class="form__stato" role="status" aria-live="polite"></span>
+  </div>
+</form>
+
+<style>
+  .form { background: var(--paper); border: 1px solid var(--hairline); padding: 32px; min-width: 0; }
+  .form__sub { font-size: 13px; color: var(--fog); margin: 8px 0 32px; }
+  .form__riga { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 16px; }
+  .form__campo { margin-top: 16px; }
+  .form__piede {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    border-top: 1px solid var(--hairline);
+    margin-top: 24px;
+    padding-top: 24px;
+  }
+  .form__stato { font-size: 13px; color: var(--fog); }
+</style>
+
+<script>
+  import emailjs from '@emailjs/browser';
+
+  const form = document.getElementById('form-contatti');
+  if (form) {
+    const bottone = form.querySelector('button[type="submit"]');
+    const stato = form.querySelector('.form__stato');
+    const { service, template, key } = form.dataset;
+
+    if (key) emailjs.init({ publicKey: key });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const dati = Object.fromEntries(new FormData(form));
+
+      bottone.disabled = true;
+      bottone.textContent = 'Invio…';
+      stato.textContent = '';
+
+      try {
+        if (service && template && key) {
+          await emailjs.send(service, template, dati);
+        } else {
+          // Nessuna chiave EmailJS: ripiego sull'endpoint server.
+          const r = await fetch('/api/contatti', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dati),
+          });
+          if (!r.ok) throw new Error('invio non riuscito');
+        }
+        form.reset();
+        bottone.textContent = 'Inviato';
+        stato.textContent = 'Grazie! Ti rispondo al più presto.';
+      } catch (err) {
+        bottone.disabled = false;
+        bottone.textContent = 'Invia messaggio';
+        stato.textContent = 'Invio non riuscito. Scrivimi su WhatsApp o per email.';
+        console.error(err);
+      }
+    });
+  }
+</script>

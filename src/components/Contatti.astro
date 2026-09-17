@@ -1,0 +1,57 @@
+---
+import { site } from '../data/site.js';
+import FormContatti from './FormContatti.astro';
+---
+
+<section class="section section--soft" id="contatti">
+  <div class="container split">
+    <div data-reveal>
+      <p class="eyebrow">Contatti</p>
+      <h2>Scrivimi, risponde sempre Sara</h2>
+      <p class="testo">
+        Per disponibilità, preventivi o una domanda sulle case. Di solito rispondo entro poche ore.
+      </p>
+
+      <div class="blocchi">
+        <div class="blocco">
+          <p class="eyebrow">Dove sono</p>
+          <p class="blocco__v">{site.citta}</p>
+          <p class="blocco__n">15 minuti dal centro, 20 dalla Fiera</p>
+        </div>
+        <div class="blocco">
+          <p class="eyebrow">Telefono e WhatsApp</p>
+          <p class="blocco__v"><a href={`tel:${site.telefonoRaw}`}>{site.telefono}</a></p>
+        </div>
+        <div class="blocco">
+          <p class="eyebrow">Email</p>
+          <p class="blocco__v"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        </div>
+      </div>
+    </div>
+
+    <FormContatti />
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 64px;
+    align-items: start;
+  }
+  h2 { margin: 24px 0; }
+  .testo { max-width: 32em; margin-bottom: 48px; }
+  .blocchi { display: flex; flex-direction: column; gap: 32px; }
+  .blocco { border-top: 1px solid var(--hairline); padding-top: 24px; }
+  .blocco__v {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: .44px;
+    margin-top: 8px;
+  }
+  .blocco__v a { color: var(--ink); }
+  .blocco__v a:hover { color: var(--teal); }
+  .blocco__n { font-size: 16px; color: var(--fog); margin-top: 8px; }
+</style>

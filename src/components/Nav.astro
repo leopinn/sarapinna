@@ -1,0 +1,78 @@
+---
+import { nav, site } from '../data/site.js';
+const { trasparente = false } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<nav class:list={['nav', { 'nav--over': trasparente }]} data-trasparente={trasparente ? 'true' : 'false'}>
+  <div class="nav__inner container">
+    <a class="nav__mark" href="/">{site.nome}</a>
+    <div class="nav__links">
+      {nav.slice(1).map((v) => (
+        <a href={v.href} class:list={['nav__link', { 'is-active': path === v.href }]}>{v.label}</a>
+      ))}
+    </div>
+    <a class="btn" href="/contatti">Prenota ora</a>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    background: var(--paper);
+    border-bottom: 1px solid var(--hairline);
+    transition: background 240ms ease, border-color 240ms ease;
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .nav__mark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: .44px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 240ms ease;
+  }
+  .nav__mark:hover { text-decoration: none; }
+  .nav__links { display: flex; align-items: center; gap: 6px; }
+  .nav__link {
+    font-size: 13px;
+    padding: 8px 14px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 140ms ease, opacity 140ms ease;
+  }
+  .nav__link:hover, .nav__link.is-active { text-decoration: none; opacity: .62; }
+
+  /* stato sopra l'hero: barra trasparente su video scuro */
+  .nav--over:not(.is-scrolled) {
+    background: transparent;
+    border-bottom-color: rgba(255,255,255,.28);
+  }
+  .nav--over:not(.is-scrolled) .nav__mark { color: #fff; }
+  .nav--over:not(.is-scrolled) .nav__link { color: rgba(255,255,255,.72); }
+  .nav--over:not(.is-scrolled) .nav__link:hover { color: #fff; opacity: 1; }
+
+  @media (max-width: 760px) {
+    .nav__links { display: none; }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector('.nav');
+  if (nav && nav.dataset.trasparente === 'true') {
+    const aggiorna = () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > window.innerHeight - 90);
+    };
+    window.addEventListener('scroll', aggiorna, { passive: true });
+    aggiorna();
+  }
+</script>

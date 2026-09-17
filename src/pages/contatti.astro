@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Contatti from '../components/Contatti.astro';
+---
+
+<Base titolo="Contatti — Sara Pinna" descrizione="Telefono, WhatsApp, email e modulo di contatto per richiedere disponibilità.">
+  <div class="testata">
+    <div class="container">
+      <p class="eyebrow">Contatti</p>
+      <h1>Parliamone</h1>
+    </div>
+  </div>
+  <Contatti />
+</Base>
+
+<style>
+  .testata { padding: 160px 0 0; }
+  .testata h1 { margin-top: 24px; max-width: 18em; }
+</style>

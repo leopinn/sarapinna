@@ -1,0 +1,66 @@
+---
+import { site } from '../data/site.js';
+const anno = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__griglia">
+      <div>
+        <p class="footer__mark">{site.nome}</p>
+        <p class="footer__testo">
+          Affitti brevi tra Isola della Scala e Verona. Case curate una per una, accoglienza di persona.
+        </p>
+        <a href={site.instagram} target="_blank" rel="noopener">Instagram</a>
+      </div>
+      <div>
+        <p class="footer__t">Il sito</p>
+        <div class="footer__col">
+          <a href="/">Home</a>
+          <a href="/chi-sono">Chi sono</a>
+          <a href="/servizi">Servizi</a>
+          <a href="/galleria">Galleria</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer__t">Prenota</p>
+        <div class="footer__col">
+          <a href={site.airbnb || '/contatti'}>Airbnb</a>
+          <a href={site.booking || '/contatti'}>Booking</a>
+          <a href="/contatti">Richiedi disponibilità</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer__t">Contatti</p>
+        <div class="footer__col">
+          <span>{site.indirizzo}</span>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={`tel:${site.telefonoRaw}`}>{site.telefono}</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span>©{anno} {site.nome} · Tutti i diritti riservati</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); color: var(--paper); padding: 72px 0 32px; }
+  .footer__griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 48px; }
+  .footer__mark { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: .44px; margin-bottom: 16px; }
+  .footer__testo { color: rgba(255,255,255,.66); margin-bottom: 24px; max-width: 26em; }
+  .footer__t { font-size: 13px; font-weight: 500; margin-bottom: 24px; }
+  .footer__col { display: flex; flex-direction: column; gap: 16px; }
+  .footer a, .footer__col span { font-size: 13px; color: rgba(255,255,255,.66); }
+  .footer a:hover { color: #fff; }
+  .footer__base {
+    border-top: 1px solid rgba(255,255,255,.28);
+    margin-top: 64px;
+    padding-top: 32px;
+    display: flex;
+    justify-content: center;
+    font-size: 13px;
+    color: rgba(255,255,255,.66);
+  }
+</style>
