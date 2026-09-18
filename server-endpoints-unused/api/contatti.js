@@ -1,3 +1,5 @@
+// NON IN USO: conservato per il giorno in cui il sito girasse su Node.
+// In produzione il form passa da public/api/contatti.php (hosting condiviso PHP).
 // BACKEND — endpoint del form di contatto.
 // Invia le mail via SMTP dalla casella Hostinger info@sarapinna.it, senza servizi terzi.
 // Richiede output: 'server' (o 'hybrid') in astro.config.mjs + adapter @astrojs/node.

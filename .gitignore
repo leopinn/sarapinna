@@ -13,3 +13,6 @@ dist/
 # sistema
 .DS_Store
 *.log
+
+# credenziali SMTP per l'endpoint PHP — MAI committare
+smtp-config.php

@@ -1,11 +1,9 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
 
 export default defineConfig({
   site: 'https://sarapinna.it',
-  // 'static' + adapter: le pagine restano pre-generate in HTML, mentre le rotte
-  // con `export const prerender = false` (src/pages/api/) girano su Node.
-  // Serve per l'invio SMTP del form: /api/contatti.
+  // Sito interamente statico: l'hosting condiviso Hostinger serve HTML e PHP,
+  // non esegue Node. Il form passa da public/api/contatti.php, che finisce
+  // nel build cosi' com'e' e invia via SMTP con PHPMailer.
   output: 'static',
-  adapter: node({ mode: 'standalone' }),
 });
