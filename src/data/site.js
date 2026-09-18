@@ -7,10 +7,9 @@ export const site = {
   telefonoRaw: '+393771406220',
   whatsapp: '393771406220',
   whatsappMsg: 'Ciao Sara, vorrei informazioni sulla disponibilità',
-  email: 'pinna_sara@icloud.com',
+  email: 'info@sarapinna.it',
   instagram: 'https://www.instagram.com/_sara.pinna_/',
   instagramHandle: '@_sara.pinna_',
-  // Inserisci gli URL veri quando gli account sono pronti:
   airbnb: '',
   booking: '',
 };
