@@ -1,57 +1,253 @@
 ---
-import { servizi } from '../data/site.js';
+import { esperienze } from '../data/site.js';
+
+// Ogni arco gira a ciclo continuo: le tre esperienze compaiono due volte,
+// così la metà visibile dell'arco mostra sempre tre elementi diversi.
+const titoli = [...esperienze, ...esperienze].map((e, i) => ({
+  titolo: e.titolo,
+  duplicato: i >= esperienze.length,
+}));
+
+// una foto per esperienza, ripetuta due volte come i titoli: i doppioni
+// finiscono agli antipodi del cerchio, quindi non sono mai visibili insieme
+const foto = [...esperienze, ...esperienze].map((e) => ({
+  src: e.immagine,
+  alt: e.titolo,
+}));
 ---
 
-<section class="section section--soft" id="servizi">
-  <div class="container">
-    <header class="intro" data-reveal>
-      <p class="eyebrow">Servizi</p>
-      <h2>Dove trovarmi e dove prenotare</h2>
-      <p>Tre porte d'ingresso, la stessa accoglienza. Scegli il canale che preferisci.</p>
-    </header>
-    <div class="cards">
-      {servizi.map((s, i) => (
-        <a
-          class="card"
-          href={s.href}
-          target={s.href.startsWith('http') ? '_blank' : null}
-          rel={s.href.startsWith('http') ? 'noopener' : null}
-          style={`--wall:${s.wall};--wall-hover:${s.wallHover};transition-delay:${i * 120}ms`}
-          data-reveal
-        >
-          <div>
-            <div class="card__top">
-              <p class="eyebrow">{s.eyebrow}</p>
-              {s.inArrivo && <span class="tag">In arrivo</span>}
-            </div>
-            <h3>{s.titolo}</h3>
-            <p>{s.testo}</p>
-          </div>
-          <p class="card__cta">{s.cta}</p>
-        </a>
-      ))}
-    </div>
+<section class="esperienze" id="servizi">
+  <p class="eyebrow esperienze__occhiello">Esperienze</p>
+  <h2 class="solo-lettori">Le esperienze che organizzo a Verona</h2>
+
+  <div class="arco arco--testo">
+    {titoli.map((t) => (
+      <p class="titolo" aria-hidden={t.duplicato ? 'true' : null}>{t.titolo}</p>
+    ))}
   </div>
+
+  <div class="arco arco--foto" aria-hidden="true">
+    {foto.map((f) => (
+      <figure class="foto">
+        <img src={f.src} alt={f.alt} loading="lazy" />
+      </figure>
+    ))}
+  </div>
+
+  <a class="btn esperienze__cta" href="/contatti">Richiedi disponibilità</a>
 </section>
 
 <style>
-  .intro { max-width: 32em; margin-bottom: 64px; }
-  .intro h2 { margin: 24px 0 16px; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; }
-  .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 340px;
-    padding: 32px;
-    background: var(--wall);
-    color: var(--ink);
-    text-decoration: none;
-    transition: opacity 700ms ease, transform 700ms ease, background 140ms ease;
+  .solo-lettori {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
   }
-  .card:hover { background: var(--wall-hover); color: var(--ink); text-decoration: none; }
-  .card__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
-  .card h3 { margin-bottom: 16px; }
-  .card__cta { font-size: 13px; font-weight: 500; margin-top: 32px; }
-  .tag { font-size: 13px; padding: 4px 12px; border: 1px solid var(--hairline); border-radius: 2px; color: var(--fog); }
+
+  .esperienze {
+    position: relative;
+    background: var(--mist); /* stesso fondo di .section--soft, come Contatti */
+    color: var(--ink);
+    padding: 96px 32px;
+  }
+  .esperienze__occhiello { margin-bottom: 48px; }
+  .esperienze__cta { margin-top: 48px; }
+
+  .arco { margin-bottom: 48px; }
+
+  .titolo {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--obsidian);
+    margin: 0 0 16px;
+    white-space: nowrap;
+  }
+  .titolo[aria-hidden='true'] { display: none; }
+
+  .foto {
+    margin: 0 0 16px;
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--hairline); /* segnaposto mentre la foto carica */
+  }
+  .foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* fallback senza JS / sotto i 900px: elenco e griglia, in colonna */
+  @media (min-width: 560px) {
+    .arco--foto { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .arco--foto .foto { margin: 0; aspect-ratio: 1; }
+  }
+
+  /* ───── stato a tutto schermo, acceso dallo script ───── */
+  .esperienze.is-circolare {
+    height: 100vh;
+    padding: 0;
+    overflow: hidden;
+  }
+  .esperienze.is-circolare .esperienze__occhiello {
+    position: absolute;
+    top: 48px;
+    left: 48px;
+    margin: 0;
+    z-index: 50;
+  }
+  .esperienze.is-circolare .esperienze__cta {
+    position: absolute;
+    bottom: 48px;
+    left: 48px;
+    margin: 0;
+    z-index: 50;
+  }
+
+  .esperienze.is-circolare .arco {
+    position: absolute;
+    top: 50%;
+    margin: 0;
+  }
+  .esperienze.is-circolare .arco--testo { left: 31%; }
+  .esperienze.is-circolare .arco--foto { left: 69%; }
+
+  .esperienze.is-circolare .titolo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    text-align: center;
+    will-change: transform, opacity;
+  }
+  .esperienze.is-circolare .titolo[aria-hidden='true'] { display: block; }
+
+  .esperienze.is-circolare .arco--foto {
+    display: block;
+    grid-template-columns: none;
+  }
+  .esperienze.is-circolare .foto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    margin: 0;
+    aspect-ratio: auto;
+    box-shadow:
+      0 2px 6px rgba(25,27,31,.08),
+      0 18px 48px rgba(25,27,31,.22);
+    will-change: transform, opacity;
+  }
+
+  @media (max-width: 1100px) {
+    .esperienze.is-circolare .foto { width: 336px; height: 336px; }
+    .esperienze.is-circolare .titolo { font-size: 34px; }
+  }
 </style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const LARGHEZZA_MIN = 900; // sotto: niente archi, resta l'elenco
+  const PROFONDITA_TESTO = 30; // LEFT_DEPTH_MAX del componente originale
+  const PROFONDITA_FOTO = 40; // RIGHT_DEPTH_MAX
+  // Offset unico per i due archi: con cos(π + x) = cos(π − x) l'elemento i
+  // dei due archi è al centro nello stesso istante, pur girando al contrario.
+  const ANGOLO_INIZIALE = Math.PI;
+  const CURVA = 110; // di quanto l'arco si gonfia verso il centro
+
+  const sezione = document.querySelector<HTMLElement>('.esperienze');
+  const titoli = gsap.utils.toArray<HTMLElement>('.titolo');
+  const foto = gsap.utils.toArray<HTMLElement>('.foto');
+
+  const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const attivabile = () => !ridotto && window.innerWidth >= LARGHEZZA_MIN;
+
+  if (sezione && titoli.length && foto.length && attivabile()) {
+    sezione.classList.add('is-circolare');
+    gsap.set([...titoli, ...foto], { xPercent: -50, yPercent: -50 });
+
+    const raggio = () => window.innerHeight * 0.46;
+
+    /**
+     * Dispone gli elementi su un cerchio di cui si vede solo la metà davanti.
+     * `verso` +1 fa salire gli elementi, -1 li fa scendere.
+     */
+    const disponi = (
+      elementi: HTMLElement[],
+      avanzamento: number,
+      opzioni: {
+        verso: 1 | -1;
+        profondita: number;
+        scalaMin: number;
+        scalaMax: number;
+      },
+    ) => {
+      const r = raggio();
+      elementi.forEach((el, i) => {
+        const angolo =
+          ANGOLO_INIZIALE + opzioni.verso * (i / elementi.length + avanzamento) * Math.PI * 2;
+
+        // cos(angolo): 1 = al centro, davanti; -1 = dietro, fuori campo
+        const d = Math.cos(angolo);
+        const vicinanza = (d + 1) / 2;
+
+        gsap.set(el, {
+          x: (opzioni.verso === 1 ? d - 1 : 1 - d) * CURVA,
+          y: -Math.sin(angolo) * r,
+          scale: opzioni.scalaMin + vicinanza * (opzioni.scalaMax - opzioni.scalaMin),
+          opacity: gsap.utils.clamp(0, 1, (d + 0.15) / 0.75),
+          zIndex: Math.round(1 + vicinanza * opzioni.profondita),
+        });
+      });
+    };
+
+    const aggiorna = (avanzamento: number) => {
+      // l'arco di sinistra sale, quello di destra scende
+      disponi(titoli, avanzamento, {
+        verso: 1,
+        profondita: PROFONDITA_TESTO,
+        scalaMin: 0.58,
+        scalaMax: 1.12,
+      });
+      disponi(foto, avanzamento, {
+        verso: -1,
+        profondita: PROFONDITA_FOTO,
+        scalaMin: 0.74,
+        scalaMax: 1.1,
+      });
+    };
+
+    aggiorna(0);
+
+    const trigger = ScrollTrigger.create({
+      trigger: sezione,
+      start: 'top top',
+      end: '+=200%',
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => aggiorna(self.progress),
+      onRefresh: (self) => aggiorna(self.progress),
+    });
+
+    // se si scende sotto la soglia, si torna all'elenco statico
+    window.addEventListener('resize', () => {
+      if (!attivabile() && sezione.classList.contains('is-circolare')) {
+        sezione.classList.remove('is-circolare');
+        gsap.set([...titoli, ...foto], { clearProps: 'all' });
+        trigger.kill(); // solo il nostro: reveal.js ha i suoi
+      }
+      ScrollTrigger.refresh();
+    });
+  }
+</script>

@@ -7,22 +7,30 @@ import { galleria } from '../data/site.js';
     <header class="intro" data-reveal>
       <div>
         <p class="eyebrow">Galleria</p>
-        <h2>Le stanze, prima di arrivare</h2>
+        <h2>Dove soggiornerai</h2>
       </div>
-      <p class="hint">Clicca una foto per vederla grande</p>
+      <p class="hint">
+        <span class="hint__desktop">Passa sopra una foto per aprirla, clicca per vederla grande</span>
+        <span class="hint__mobile">Tocca una foto per vederla grande</span>
+      </p>
     </header>
-    <div class="grid">
+
+    <div class="accordion" data-reveal>
       {galleria.map((f, i) => (
         <button
-          class:list={['tile', { 'tile--wide': f.wide }]}
+          class:list={['pannello', { 'is-aperto': i === 0 }]}
           style={`transition-delay:${i * 80}ms`}
           data-src={f.src}
           data-alt={f.alt}
-          data-reveal
           type="button"
           aria-label={`Apri: ${f.alt}`}
         >
           <img src={f.src} alt={f.alt} loading="lazy" />
+          <span class="pannello__velo"></span>
+          <span class="pannello__didascalia">
+            <span class="pannello__numero">{String(i + 1).padStart(2, '0')}</span>
+            <span class="pannello__testo">{f.alt}</span>
+          </span>
         </button>
       ))}
     </div>
@@ -39,20 +47,119 @@ import { galleria } from '../data/site.js';
   .intro > div { max-width: 32em; }
   .intro h2 { margin-top: 24px; }
   .hint { font-size: 13px; color: var(--fog); }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
-  .tile {
-    padding: 0;
-    border: none;
-    background: var(--mist);
-    height: 300px;
-    cursor: zoom-in;
-    overflow: hidden;
+  .hint__mobile { display: none; }
+
+  .accordion {
+    display: flex;
+    gap: 8px;
+    height: 460px;
     transition: opacity 700ms ease, transform 700ms ease;
   }
-  .tile--wide { grid-column: span 2; height: 420px; }
-  .tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms ease; }
-  .tile:hover img { transform: scale(1.03); }
-  @media (max-width: 700px) { .tile--wide { grid-column: span 1; height: 300px; } }
+
+  .pannello {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 2px;
+    background: var(--mist);
+    overflow: hidden;
+    cursor:pointer;
+    transition: flex-grow 600ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .pannello:hover,
+  .pannello:focus-visible,
+  .pannello.is-aperto { flex-grow: 4; }
+  .pannello:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+  .accordion:hover .pannello.is-aperto:not(:hover) { flex-grow: 1; }
+
+  .pannello img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.06);
+    transition: transform 900ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .pannello:hover img,
+  .pannello:focus-visible img,
+  .pannello.is-aperto img { transform: scale(1); }
+
+  .pannello__velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(25,27,31,0) 42%, rgba(25,27,31,.72) 100%);
+  }
+
+  .pannello__didascalia {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-align: left;
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 400ms ease, transform 400ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .pannello:hover .pannello__didascalia,
+  .pannello:focus-visible .pannello__didascalia,
+  .pannello.is-aperto .pannello__didascalia { opacity: 1; transform: none; }
+
+  .pannello__numero {
+    font-size: 13px;
+    letter-spacing: .09em;
+    color: rgba(255,255,255,.62);
+  }
+  .pannello__testo {
+    font-family: var(--font-display);
+    font-size: 30px;
+    line-height: 1.05;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 900px) {
+    .accordion { height: 380px; }
+    .pannello__testo { font-size: 22px; }
+  }
+
+  /* sotto i 700px l'accordion non ha spazio: riquadri statici impilati, come prima */
+  @media (max-width: 700px) {
+    .accordion {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      height: auto;
+    }
+    .pannello {
+      height: 300px;
+      cursor: zoom-in;
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+    .pannello:hover,
+    .pannello:focus-visible,
+    .pannello.is-aperto { flex-grow: 1; }
+    .pannello img,
+    .pannello:hover img,
+    .pannello:focus-visible img,
+    .pannello.is-aperto img { transform: none; transition: none; }
+    .pannello__velo,
+    .pannello__didascalia { display: none; }
+    .hint__desktop { display: none; }
+    .hint__mobile { display: inline; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pannello,
+    .pannello img,
+    .pannello__didascalia { transition: none; }
+  }
 
   .lightbox {
     position: fixed;
@@ -63,7 +170,7 @@ import { galleria } from '../data/site.js';
     align-items: center;
     justify-content: center;
     padding: 48px;
-    cursor: zoom-out;
+    cursor:pointer;
   }
   .lightbox[hidden] { display: none; }
   .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -71,14 +178,14 @@ import { galleria } from '../data/site.js';
 </style>
 
 <script>
-  const lightbox = document.querySelector('.lightbox');
+  const lightbox = document.querySelector<HTMLElement>('.lightbox');
   const img = lightbox?.querySelector('img');
 
-  document.querySelectorAll('.tile').forEach((tile) => {
-    tile.addEventListener('click', () => {
+  document.querySelectorAll<HTMLElement>('.pannello').forEach((pannello) => {
+    pannello.addEventListener('click', () => {
       if (!lightbox || !img) return;
-      img.src = tile.dataset.src;
-      img.alt = tile.dataset.alt ?? '';
+      img.src = pannello.dataset.src ?? '';
+      img.alt = pannello.dataset.alt ?? '';
       lightbox.hidden = false;
       document.body.style.overflow = 'hidden';
     });

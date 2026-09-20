@@ -22,42 +22,37 @@ export const nav = [
   { label: 'Contatti', href: '/contatti' },
 ];
 
-export const servizi = [
+export const esperienze = [
   {
-    eyebrow: 'Instagram',
-    titolo: 'Le case, i giorni, Verona',
-    testo: 'Foto delle stanze, novità sulle disponibilità e i posti che consiglio agli ospiti.',
-    cta: site.instagramHandle + ' →',
-    href: site.instagram,
-    wall: 'var(--wall-peach)',
-    wallHover: '#f9e1cd',
+    numero: '01',
+    titolo: 'Tour guidato di Verona',
+    testo:
+      'Il centro storico a piedi, con calma: l’Arena, Piazza delle Erbe, la Casa di Giulietta e gli angoli che le guide di passaggio non raccontano.',
+    meta: ['Circa 2 ore', 'A piedi, in centro'],
+    immagine: '/images/experience-3.jpg',
   },
   {
-    eyebrow: 'Airbnb',
-    titolo: 'Prenota per notti e weekend',
-    testo: 'Calendario aggiornato, check-in autonomo e cancellazione flessibile fino a 5 giorni prima.',
-    cta: 'Vedi gli annunci →',
-    href: site.airbnb || '/contatti',
-    wall: 'var(--wall-mint)',
-    wallHover: '#dff7e2',
-    inArrivo: !site.airbnb,
+    numero: '02',
+    titolo: 'Degustazione di vini locali',
+    testo:
+      'Valpolicella, Amarone, Soave. Una selezione di cantine della provincia dove si assaggia seduti, senza fretta e senza pullman.',
+    meta: ['Mezza giornata', 'Cantine in provincia'],
+    immagine: '/images/experience-1.jpg',
   },
   {
-    eyebrow: 'Booking',
-    titolo: 'Soggiorni di lavoro e fiere',
-    testo: 'Fattura su richiesta, colazione lasciata in casa e possibilità di late check-out.',
-    cta: 'Vedi le strutture →',
-    href: site.booking || '/contatti',
-    wall: 'var(--wall-lavender)',
-    wallHover: '#dbd0ea',
-    inArrivo: !site.booking,
+    numero: '03',
+    titolo: 'Tour di Verona in auto d’epoca',
+    testo:
+      'Un giro panoramico a bordo di un’auto storica, tra le colline e il lungadige, con le soste giuste per le fotografie.',
+    meta: ['Circa 90 minuti', 'Partenza dal centro'],
+    immagine: '/images/experience-2.jpg',
   },
 ];
 
 export const galleria = [
-  { src: '/images/gallery-1.jpg', alt: 'Il soggiorno', wide: true },
-  { src: '/images/gallery-2.jpg', alt: 'La camera' },
-  { src: '/images/gallery-3.jpg', alt: 'La cucina' },
-  { src: '/images/gallery-4.jpg', alt: 'Il bagno' },
-  { src: '/images/gallery-5.jpg', alt: 'Un dettaglio della casa' },
+  { src: '/images/gallery-1.png', alt: 'Il soggiorno', wide: true },
+  { src: '/images/gallery-2.png', alt: 'La camera' },
+  { src: '/images/gallery-3.png', alt: 'La cucina' },
+  { src: '/images/gallery-4.png', alt: 'Il bagno' },
+  { src: '/images/gallery-5.png', alt: 'Un dettaglio della casa' },
 ];

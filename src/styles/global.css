@@ -11,7 +11,7 @@
   --teal: #186f64;
   --teal-hover: #12564e;
   --violet: #536eff;
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'League Gothic', 'Archivo Narrow', 'Oswald', sans-serif;
   --font-ui: 'Archivo', 'IBM Plex Sans', system-ui, sans-serif;
   --container: 1200px;
 }
@@ -33,10 +33,17 @@ body {
 a { color: var(--teal); text-decoration: none; }
 a:hover { color: var(--teal-hover); text-decoration: underline; text-underline-offset: 3px; }
 
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; color: var(--obsidian); margin: 0; text-wrap: pretty; }
-h1 { font-size: 80px; line-height: 1.1; letter-spacing: 1.6px; }
-h2 { font-size: 46px; line-height: 1.2; letter-spacing: .92px; }
-h3 { font-size: 22px; line-height: 1.2; letter-spacing: .44px; }
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--obsidian);
+  margin: 0;
+  text-transform: uppercase;
+  text-wrap: pretty;
+}
+h1 { font-size: 60px; line-height: .9; letter-spacing: 3px; }
+h2 { font-size: 45px; line-height: 1; letter-spacing: 2.25px; }
+h3 { font-size: 30px; line-height: 1.05; letter-spacing: 1.5px; }
 p { margin: 0; }
 
 .container { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
@@ -107,7 +114,8 @@ p { margin: 0; }
 }
 
 @media (max-width: 900px) {
-  h1 { font-size: 44px; letter-spacing: .8px; }
-  h2 { font-size: 32px; letter-spacing: .6px; }
+  h1 { font-size: 45px; letter-spacing: 2.5px; }
+  h2 { font-size: 34px; letter-spacing: 1.7px; }
+  h3 { font-size: 24px; letter-spacing: 1.2px; }
   .section { padding: 64px 0; }
 }

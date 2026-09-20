@@ -61,13 +61,14 @@
 </style>
 
 <script>
-  const form = document.getElementById('form-contatti');
+  const form = document.querySelector<HTMLFormElement>('#form-contatti');
   if (form) {
-    const bottone = form.querySelector('button[type="submit"]');
-    const stato = form.querySelector('.form__stato');
+    const bottone = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const stato = form.querySelector<HTMLElement>('.form__stato');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (!bottone || !stato) return;
       const dati = Object.fromEntries(new FormData(form));
 
       bottone.disabled = true;
@@ -80,7 +81,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(dati),
         });
-        const esito = await r.json().catch(() => ({}));
+        const esito = await r.json().catch(() => ({}) as { errore?: string });
         if (!r.ok) throw new Error(esito.errore || 'invio non riuscito');
 
         form.reset();
@@ -89,7 +90,8 @@
       } catch (err) {
         bottone.disabled = false;
         bottone.textContent = 'Invia messaggio';
-        stato.textContent = err.message || 'Invio non riuscito. Scrivimi su WhatsApp o per email.';
+        stato.textContent =
+          (err instanceof Error && err.message) || 'Invio non riuscito. Scrivimi su WhatsApp o per email.';
         console.error(err);
       }
     });

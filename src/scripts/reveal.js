@@ -54,15 +54,4 @@ if (ridotto) {
       scrollTrigger: { trigger: h, start: 'top bottom', end: 'bottom top', scrub: true },
     });
   });
-
-  // Card dei servizi: colore al passaggio del mouse gestito in CSS,
-  // qui solo il micro-movimento della freccia
-  gsap.utils.toArray('.card').forEach((card) => {
-    const cta = card.querySelector('.card__cta');
-    if (!cta) return;
-    const dentro = () => gsap.to(cta, { x: 6, duration: 0.24, ease: 'power2.out' });
-    const fuori = () => gsap.to(cta, { x: 0, duration: 0.24, ease: 'power2.out' });
-    card.addEventListener('mouseenter', dentro);
-    card.addEventListener('mouseleave', fuori);
-  });
 }

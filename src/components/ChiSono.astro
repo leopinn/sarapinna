@@ -1,4 +1,5 @@
 ---
+interface Props { compatto?: boolean }
 const { compatto = false } = Astro.props;
 ---
 
@@ -40,12 +41,12 @@ const { compatto = false } = Astro.props;
     gap: 64px;
     align-items: center;
   }
-  .lead { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: .44px; margin: 24px 0; }
+  .lead { font-weight: 500; font-size: 20px; line-height: 1.5; margin: 24px 0; }
   h2 { margin-top: 24px; }
   .testo { max-width: 36em; margin-bottom: 16px; }
   .numeri { display: flex; flex-wrap: wrap; border-top: 1px solid var(--hairline); margin-top: 32px; }
   .numeri > div { flex: 1 1 140px; padding: 24px 24px 0 0; min-width: 0; }
-  .numeri__n { font-family: var(--font-display); font-weight: 600; font-size: 46px; line-height: 1; letter-spacing: .92px; }
+  .numeri__n { font-family: var(--font-display); font-weight: 400; font-size: 56px; line-height: 1; letter-spacing: 2.25px; }
   .numeri__l { font-size: 13px; color: var(--fog); margin-top: 8px; }
   .ritratto { margin: 0; min-width: 0; }
   .ritratto img { display: block; width: 100%; height: 600px; object-fit: cover; background: var(--mist); }

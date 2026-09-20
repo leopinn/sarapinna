@@ -7,14 +7,13 @@ import { site } from '../data/site.js';
   <div class="hero__scrim"></div>
   <div class="hero__content container">
     <p class="eyebrow hero__eyebrow" data-reveal-hero>{site.claim}</p>
-    <h1 data-reveal-hero>A Verona, come se fosse casa tua</h1>
+    <h1 data-reveal-hero>La tua chiave per Verona</h1>
     <p class="hero__testo" data-reveal-hero>
-      Mi chiamo Sara. Affitto appartamenti tra Isola della Scala e Verona e mi occupo di ogni
-      soggiorno di persona, dalle chiavi ai consigli sul posto giusto per cena.
+      Ospitalità su misura a Verona. Da me, per te.
     </p>
     <div class="hero__azioni" data-reveal-hero>
-      <a class="btn" href="/servizi">Dove prenotare</a>
       <a class="btn btn--ghost" href="/chi-sono">Conoscimi</a>
+      <a class="btn" href="/servizi">Prenota</a>
     </div>
     <div class="hero__cue"><span></span> Scorri</div>
   </div>
@@ -40,22 +39,28 @@ import { site } from '../data/site.js';
     height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding-top: 120px;
-    padding-bottom: 56px;
+    text-align: center;
+    padding-top: 96px;
+    padding-bottom: 96px;
   }
-  .hero__eyebrow { color: rgba(255,255,255,.72); margin-bottom: 28px; }
-  .hero h1 { color: #fff; max-width: 16em; }
-  .hero__testo { color: rgba(255,255,255,.7); margin-top: 28px; max-width: 34em; }
-  .hero__azioni { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 40px; }
+  .hero__eyebrow { color: rgba(255,255,255,.72); margin-bottom: 24px; }
+  /* dimensione, tracking e uppercase arrivano da global.css (scala League Gothic) */
+  .hero h1 { color: #fff; max-width: 10em; }
+  .hero__testo { color: rgba(255,255,255,.7); margin-top: 24px; max-width: 34em; }
+  .hero__azioni { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 36px; }
   .hero__cue {
     position: absolute;
-    left: 32px;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 40px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     font-size: 13px;
+    letter-spacing: .06em;
     color: rgba(255,255,255,.72);
   }
   .hero__cue span {
@@ -63,5 +68,9 @@ import { site } from '../data/site.js';
     height: 28px;
     background: rgba(255,255,255,.28);
     animation: scroll-cue 2.6s ease-in-out infinite;
+  }
+
+  @media (max-width: 900px) {
+    .hero h1 { max-width: 9em; }
   }
 </style>
