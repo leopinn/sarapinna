@@ -59,9 +59,8 @@ export const testi = {
     prenotaOra: 'Prenota ora',
 
     hero: {
-      claim: 'Affitti brevi · Verona e provincia',
-      titolo: 'La tua chiave per Verona',
-      testo: 'Ospitalità su misura a Verona. Da me, per te.',
+      titolo: "L'esperta di viaggi autentici",
+      testo: 'Lasciati guidare alla scoperta di Verona.',
       conoscimi: 'Conoscimi',
       prenota: 'Prenota',
       scorri: 'Scorri',
@@ -82,6 +81,34 @@ export const testi = {
       ],
       ritrattoAlt: 'Sara Pinna',
       ritrattoDidascalia: 'Sara Pinna, Isola della Scala (VR)',
+      blocchi: [
+        {
+          titolo: 'Verona, ogni volta per la prima volta',
+          fotoAlt: 'Scorcio di Verona',
+          paragrafi: [
+            'Ci sono vissuta accanto tutta la vita, eppure Verona riesce ancora a sorprendermi. Succede quando la mostro a qualcuno: lo vedo alzare gli occhi in Piazza delle Erbe, rallentare sul Ponte Pietra, restare in silenzio davanti all’Arena. In quel momento la città torna nuova anche per me.',
+            'È la parte più bella di quello che faccio. Non raccontare date e monumenti, ma condividere la sensazione di un posto che amo: il profumo delle osterie a mezzogiorno, la luce dorata sull’Adige al tramonto, il vino che ha il sapore delle colline qui intorno.',
+            'Quando un ospite mi scrive, giorni dopo, che Verona gli è rimasta addosso, so di aver fatto la cosa giusta.',
+          ],
+        },
+        {
+          titolo: 'Ogni dettaglio, curato da me',
+          fotoAlt: 'Sara organizza un’esperienza a Verona',
+          paragrafi: [
+            'Ogni esperienza nasce da una chiacchierata. Ti chiedo cosa ti piace, con chi viaggi, quanto tempo hai e che ritmo preferisci: da lì costruisco una giornata pensata per te, non un pacchetto uguale per tutti.',
+            'Scelgo di persona le cantine, i produttori e i posti in cui ti porto, perché li conosco e mi fido di loro. Prenoto, confermo, controllo orari e spostamenti, e ti mando tutto per tempo, così tu devi solo presentarti.',
+            'Serietà e puntualità per me non sono un extra: sono il minimo. Se qualcosa cambia, lo sai subito da me, e troviamo insieme un’alternativa.',
+          ],
+        },
+      ],
+      perche: {
+        titolo: 'Perché scegliermi?',
+        voci: [
+          'Guida privata da una vera local',
+          'Senza costi di pianificazione',
+          'Niente classiche attività turistiche',
+        ],
+      },
     },
 
     esperienze: {
@@ -101,11 +128,10 @@ export const testi = {
 
     contatti: {
       eyebrow: 'Contatti',
-      titolo: 'Scrivimi, risponde sempre Sara',
+      titolo: 'Quindi, iniziamo?',
       testo:
-        'Per disponibilità, preventivi o una domanda sulle case. Di solito rispondo entro poche ore.',
+        'Per disponibilità, preventivi o una domanda sulle esperienze. Di solito rispondo entro poche ore.',
       doveSono: 'Dove sono',
-      distanza: '15 minuti dal centro, 20 dalla Fiera',
       telefono: 'Telefono e WhatsApp',
       email: 'Email',
     },
@@ -118,7 +144,7 @@ export const testi = {
       email: 'Email',
       emailSegnaposto: 'nome@email.com',
       messaggio: 'Messaggio',
-      messaggioSegnaposto: 'Date, numero di ospiti, domande…',
+      messaggioSegnaposto: 'Date, tipo di esperienza, domande…',
       esca: 'Sito web',
       invia: 'Invia messaggio',
       invio: 'Invio…',
@@ -129,7 +155,7 @@ export const testi = {
 
     footer: {
       testo:
-        'Affitti brevi tra Isola della Scala e Verona. Case curate una per una, accoglienza di persona.',
+        "Trasforma il tuo soggiorno in un'esperienza indimenticabile a Verona",
       instagram: 'Profilo Instagram',
       airbnb: 'Pagina Airbnb',
       colonnaSito: 'Sito',
@@ -197,9 +223,8 @@ export const testi = {
     prenotaOra: 'Book now',
 
     hero: {
-      claim: 'Short stays · Verona and around',
-      titolo: 'Your key to Verona',
-      testo: 'Tailor-made hospitality in Verona. From me, for you.',
+      titolo: 'The authentic travel expert',
+      testo: 'Let me guide you through Verona.',
       conoscimi: 'Meet me',
       prenota: 'Book',
       scorri: 'Scroll',
@@ -220,6 +245,34 @@ export const testi = {
       ],
       ritrattoAlt: 'Sara Pinna',
       ritrattoDidascalia: 'Sara Pinna, Isola della Scala (Verona)',
+      blocchi: [
+        {
+          titolo: 'Verona, every time like the first time',
+          fotoAlt: 'A view of Verona',
+          paragrafi: [
+            'I have lived next to it all my life, and yet Verona still manages to surprise me. It happens when I show it to someone: I see them look up in Piazza delle Erbe, slow down on Ponte Pietra, fall silent in front of the Arena. In that moment the city feels new to me too.',
+            'That is the best part of what I do. Not reciting dates and monuments, but sharing the feeling of a place I love: the smell of the osterie at noon, the golden light on the Adige at sunset, wine that tastes of the hills around us.',
+            'When a guest writes to me, days later, to say Verona has stayed with them, I know I got it right.',
+          ],
+        },
+        {
+          titolo: 'Every detail, looked after by me',
+          fotoAlt: 'Sara arranging an experience in Verona',
+          paragrafi: [
+            'Every experience starts with a chat. I ask what you enjoy, who you are travelling with, how much time you have and what pace you prefer: from there I build a day made for you, not a package that is the same for everyone.',
+            'I choose the wineries, the producers and the places I take you to myself, because I know them and I trust them. I book, confirm, check times and transfers, and send you everything in good time, so all you have to do is show up.',
+            'Reliability and punctuality are not an extra for me: they are the bare minimum. If anything changes, you hear it from me straight away, and we find an alternative together.',
+          ],
+        },
+      ],
+      perche: {
+        titolo: 'Why choose me?',
+        voci: [
+          'A private guide who is a real local',
+          'No planning fees',
+          'No typical tourist traps',
+        ],
+      },
     },
 
     esperienze: {
@@ -239,9 +292,9 @@ export const testi = {
 
     contatti: {
       eyebrow: 'Contact',
-      titolo: 'Write to me — Sara always replies',
+      titolo: 'So, ready to get started?',
       testo:
-        'For availability, quotes or a question about the homes. I usually reply within a few hours.',
+        'For availability, quotes or a question about the experiences. I usually reply within a few hours.',
       doveSono: 'Where I am',
       distanza: '15 minutes from the centre, 20 from the exhibition centre',
       telefono: 'Phone and WhatsApp',
@@ -256,7 +309,7 @@ export const testi = {
       email: 'Email',
       emailSegnaposto: 'name@email.com',
       messaggio: 'Message',
-      messaggioSegnaposto: 'Dates, number of guests, questions…',
+      messaggioSegnaposto: 'Dates, type of experience, questions…',
       esca: 'Website',
       invia: 'Send message',
       invio: 'Sending…',
@@ -267,7 +320,7 @@ export const testi = {
 
     footer: {
       testo:
-        'Short stays between Isola della Scala and Verona. Homes looked after one by one, welcomed in person.',
+        'Turn your stay in Verona into an unforgettable experience',
       instagram: 'Instagram profile',
       airbnb: 'Airbnb page',
       colonnaSito: 'Site',

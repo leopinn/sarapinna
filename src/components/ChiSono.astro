@@ -5,11 +5,15 @@ interface Props { compatto?: boolean }
 const { compatto = false } = Astro.props;
 
 const t = testi[linguaDa(Astro.url.pathname)].chiSono;
+
+// Foto dei blocchi 2 e 3: basta caricarle in public/images con questi nomi.
+const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
 ---
 
-<section class="section chi-sono" id="chi-sono">
-  <div class="container">
-    <div class="chi-sono__testo" data-reveal>
+<section class="chi-sono" id="chi-sono">
+  <!-- 1: testo a sinistra, foto a destra -->
+  <div class="blocco">
+    <div class="blocco__testo" data-reveal>
       <p class="eyebrow">{t.eyebrow}</p>
       <h2>{t.titolo}</h2>
       <p class="lead">{t.lead}</p>
@@ -23,74 +27,163 @@ const t = testi[linguaDa(Astro.url.pathname)].chiSono;
         </div>
       )}
     </div>
+    <figure class="blocco__foto" data-reveal>
+      <img src="/images/sara.jpg" alt={t.ritrattoAlt} loading="lazy" />
+    </figure>
   </div>
 
-  <figure class="ritratto" data-reveal>
-    <img src="/images/sara.jpg" alt={t.ritrattoAlt} loading="lazy" />
-  </figure>
+  <!-- 2 e 3: il primo è invertito (foto a sinistra), il secondo torna come l'1 -->
+  {t.blocchi.map((b, i) => (
+    <div class:list={['blocco', { 'blocco--inverso': i === 0 }]}>
+      <div class="blocco__testo" data-reveal>
+        <h2>{b.titolo}</h2>
+        {b.paragrafi.map((p) => <p class="testo">{p}</p>)}
+      </div>
+      <figure class="blocco__foto" data-reveal>
+        <img src={fotoBlocchi[i]} alt={b.fotoAlt} loading="lazy" />
+      </figure>
+    </div>
+  ))}
+
+  <div class="perche container">
+    <h2 class="perche__titolo" data-reveal>{t.perche.titolo}</h2>
+    <span class="perche__filetto" aria-hidden="true"></span>
+    <ul class="perche__voci">
+      <li data-reveal>
+        <!-- guida locale: persona con segnaposto -->
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="19" cy="15" r="7" />
+          <path d="M6 42c0-8 5.8-13 13-13 3 0 5.7.9 7.8 2.4" />
+          <path d="M36 44s-8-7.4-8-13a8 8 0 0 1 16 0c0 5.6-8 13-8 13z" />
+          <circle cx="36" cy="31" r="2.6" />
+        </svg>
+        <p>{t.perche.voci[0]}</p>
+      </li>
+      <li data-reveal>
+        <!-- nessun costo: euro barrato in un cerchio -->
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="18" />
+          <path d="M30 16.5a9 9 0 1 0 0 15" />
+          <path d="M14.5 21.5h11M14.5 26.5h11" />
+          <path d="M11 37 37 11" />
+        </svg>
+        <p>{t.perche.voci[1]}</p>
+      </li>
+      <li data-reveal>
+        <!-- fuori dai soliti percorsi: mappa con sentiero e cuore -->
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M5 12l12-5 14 5 12-5v29l-12 5-14-5-12 5z" />
+          <path d="M17 7v29M31 12v29" />
+          <path d="M9 32c4-1 6-5 10-6s7 2 10-2" stroke-dasharray="2.5 3" />
+          <path d="M37.5 24.5s-4.5-2.8-4.5-5.6a2.3 2.3 0 0 1 4.5-.8 2.3 2.3 0 0 1 4.5.8c0 2.8-4.5 5.6-4.5 5.6z" />
+        </svg>
+        <p>{t.perche.voci[2]}</p>
+      </li>
+    </ul>
+  </div>
 </section>
 
 <style>
-  /* Il bordo sinistro della foto: poco oltre la metà, non esattamente al centro. */
-  .chi-sono { --stacco: 52%; position: relative; }
+  .chi-sono { margin: 48px 0 96px; }
 
-  /* Stesso respiro sopra e sotto, così la foto si stacca sia da ciò che precede
-     sia dalle Esperienze. Serve il margine e non il padding, perché la foto
-     copre anche il padding. */
-  .chi-sono { margin: 48px 0; }
+  /* Due colonne a tutta pagina: la foto arriva a filo del bordo, il testo
+     resta allineato al container delle altre sezioni. */
+  .blocco {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 600px;
+  }
 
-  /* Il testo resta dentro il container, allineato alle altre sezioni; la
-     larghezza è limitata anche in vw perché non finisca sotto la foto. */
-  .chi-sono__testo { max-width: min(34em, 40vw); }
+  /* larga mezzo container: il bordo esterno del testo coincide con quello
+     del container, l'interno lascia 64px di respiro verso la foto */
+  .blocco__testo {
+    width: min(100%, calc(var(--container) / 2));
+    padding: 64px 64px 64px 32px;
+    justify-self: end;
+  }
+  .blocco--inverso .blocco__testo {
+    order: 2;
+    justify-self: start;
+    padding: 64px 32px 64px 64px;
+  }
+
+  .blocco__foto {
+    align-self: stretch;
+    margin: 0;
+    min-height: 600px;
+    background: var(--mist); /* segnaposto finché la foto non c'è */
+  }
+  /* la foto non tocca il centro: 12px per lato, 24px tra una colonna e l'altra */
+  .blocco .blocco__foto { margin-left: 12px; }
+  .blocco--inverso .blocco__foto { margin: 0 12px 0 0; }
+  .blocco__foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    color: transparent; /* niente alt text visibile se la foto manca */
+  }
 
   .lead { font-weight: 500; font-size: 20px; line-height: 1.5; margin: 24px 0; }
-  h2 { margin-top: 24px; }
-  .testo { margin-bottom: 16px; }
+  .eyebrow + h2 { margin-top: 24px; }
+  h2 + .testo { margin-top: 24px; }
+  .testo { margin-bottom: 16px; line-height: 1.7; }
   .numeri { display: flex; flex-wrap: wrap; border-top: 1px solid var(--hairline); margin-top: 32px; }
   .numeri > div { flex: 1 1 140px; padding: 24px 24px 0 0; min-width: 0; }
   .numeri__n { font-family: var(--font-display); font-weight: 400; font-size: 56px; line-height: 1; letter-spacing: 2.25px; }
   .numeri__l { font-size: 13px; color: var(--fog); margin-top: 8px; }
 
-  /* La foto esce dal container: occupa tutta l'altezza della sezione e
-     arriva a filo del bordo destro della pagina. */
-  .ritratto {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: var(--stacco);
-    margin: 0;
-  }
-  .ritratto img {
+  /* ───── Perché scegliermi ───── */
+  .perche { padding-top: 96px; text-align: center; }
+  .perche__filetto {
     display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background: var(--mist);
+    width: 48px;
+    height: 1px;
+    margin: 32px auto 48px;
+    background: var(--teal);
+    opacity: .5;
   }
-  .ritratto figcaption {
-    position: absolute;
-    left: 24px;
-    bottom: 24px;
-    font-size: 13px;
-    color: rgba(255,255,255,.82);
-    text-shadow: 0 1px 8px rgba(25,27,31,.6);
+  .perche__voci {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 900px;
+  }
+  .perche__voci svg {
+    width: 56px;
+    height: 56px;
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .perche__voci p {
+    max-width: 14em;
+    margin: 20px auto 0;
+    font-size: 18px;
+    line-height: 1.4;
   }
 
-  /* sotto i 900px: testo sopra, foto sotto a tutta larghezza */
+  /* sotto i 900px: ogni blocco è testo sopra, foto sotto */
   @media (max-width: 900px) {
-    .chi-sono { margin: 32px 0; }
-    .chi-sono__testo { max-width: 34em; }
-    .ritratto {
-      position: static;
-      margin-top: 64px;
+    .chi-sono { margin: 32px 0 64px; }
+    .blocco { display: block; min-height: 0; }
+    .blocco__testo,
+    .blocco--inverso .blocco__testo {
+      width: auto;
+      max-width: 34em;
+      padding: 48px 20px 32px;
     }
-    .ritratto img { height: 420px; }
-    .ritratto figcaption {
-      position: static;
-      color: var(--fog);
-      text-shadow: none;
-      margin: 16px 32px 0;
-    }
+    .blocco .blocco__foto,
+    .blocco--inverso .blocco__foto { min-height: 0; margin: 0; }
+    .blocco__foto img { height: 360px; }
+
+    .perche { padding-top: 64px; }
+    .perche__voci { grid-template-columns: 1fr; gap: 40px; }
   }
 </style>
