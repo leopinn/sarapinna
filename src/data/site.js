@@ -6,8 +6,8 @@
 
 export const site = {
   nome: 'Sara Pinna',
-  citta: 'Isola della Scala, Verona',
-  indirizzo: 'Isola della Scala (VR), Italia',
+  citta: 'Verona',
+  indirizzo: 'Verona (VR), Italia',
   telefono: '+39 377 140 6220',
   telefonoRaw: '+393771406220',
   whatsapp: '393771406220',
@@ -15,8 +15,7 @@ export const site = {
   instagram: 'https://www.instagram.com/_sara.pinna_/',
   instagramHandle: '@_sara.pinna_',
   // provvisorio: ricerca esperienze in provincia di Verona, da sostituire con la pagina di Sara
-  airbnb: 'https://www.airbnb.it/s/Provincia-di-Verona/experiences?place_id=ChIJ4-CbaWhff0cRW1mCaGNa-FM&refinement_paths%5B%5D=%2Fexperiences&location_bb=QjXpv0ExIAhCNX83QS6iyQ%3D%3D&acp_id=5400e5fd-86ef-4115-94bc-2b2704107ac3&date_picker_type=calendar&source=structured_search_input_header&search_type=autocomplete_click',
-  booking: '',
+  airbnb: 'https://www.airbnb.it/s/Provincia-di-Verona/experiences?place_id=ChIJ4-CbaWhff0cRW1mCaGNa-FM&refinement_paths%5B%5D=%2Fexperiences&location_bb=QjXpv0ExIAhCNX83QS6iyQ%3D%3D&acp_id=5400e5fd-86ef-4115-94bc-2b2704107ac3&date_picker_type=calendar&source=structured_search_input_header&search_type=autocomplete_click'
 };
 
 export const esperienze = [

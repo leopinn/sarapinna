@@ -40,6 +40,18 @@ const foto = [...elenco, ...elenco].map((e, i) => ({
     ))}
   </div>
 
+  <!-- solo mobile: ogni titolo seguito dalla sua foto -->
+  <ul class="elenco-mobile">
+    {elenco.map((e) => (
+      <li class="voce">
+        <p class="voce__titolo">{e.titolo}</p>
+        <figure class="voce__foto">
+          <img src={e.immagine} alt={e.titolo} loading="lazy" />
+        </figure>
+      </li>
+    ))}
+  </ul>
+
   <a class="btn esperienze__cta" href={t.nav[4].href}>{t.esperienze.cta}</a>
 </section>
 
@@ -92,6 +104,42 @@ const foto = [...elenco, ...elenco].map((e, i) => ({
   @media (min-width: 560px) {
     .arco--foto { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .arco--foto .foto { margin: 0; aspect-ratio: 1; }
+  }
+
+  /* ───── mobile: coppie titolo → foto, gli archi restano nascosti ───── */
+  .elenco-mobile { display: none; }
+
+  @media (max-width: 899px) {
+    .esperienze { padding: 72px 20px; }
+    .esperienze__occhiello { margin-bottom: 32px; }
+    .esperienze__cta { margin-top: 16px; }
+    .arco { display: none; }
+
+    .elenco-mobile {
+      display: block;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .voce { margin-bottom: 40px; }
+    .voce__titolo {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 7vw, 32px);
+      line-height: 1.1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--obsidian);
+      margin: 0 0 16px;
+      overflow-wrap: break-word;
+    }
+    .voce__foto {
+      margin: 0;
+      aspect-ratio: 4 / 3;
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--hairline);
+    }
+    .voce__foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
   }
 
   /* ───── stato a tutto schermo, acceso dallo script ───── */
