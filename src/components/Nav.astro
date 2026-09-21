@@ -1,19 +1,34 @@
 ---
-import { nav, site } from '../data/site.js';
+import { site } from '../data/site.js';
+import Logo from './Logo.astro';
+import { linguaDa, gemella, testi } from '../i18n/index.js';
+
 interface Props { trasparente?: boolean }
 const { trasparente = false } = Astro.props;
+
 const path = Astro.url.pathname;
+const lingua = linguaDa(path);
+const t = testi[lingua];
+const altraPagina = gemella(path);
+
+// La home è la prima voce: nel menù si parte dalla seconda, il marchio fa da link
+const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$/, '');
 ---
 
 <nav class:list={['nav', { 'nav--over': trasparente }]} data-trasparente={trasparente ? 'true' : 'false'}>
   <div class="nav__inner container">
-    <a class="nav__mark" href="/">{site.nome}</a>
+    <a class="nav__mark" href={t.nav[0].href} aria-label={site.nome}><Logo /></a>
     <div class="nav__links">
-      {nav.slice(1).map((v) => (
-        <a href={v.href} class:list={['nav__link', { 'is-active': path === v.href }]}>{v.label}</a>
+      {t.nav.slice(1).map((v) => (
+        <a href={v.href} class:list={['nav__link', { 'is-active': attiva(v.href) }]}>{v.label}</a>
       ))}
     </div>
-    <a class="btn" href="/contatti">Prenota ora</a>
+    <div class="nav__azioni">
+      <a class="nav__lingua" href={altraPagina} title={t.cambioLingua} aria-label={t.cambioLingua}>
+        <img src={t.bandiera} alt={t.bandieraAlt} width="24" height="24" />
+      </a>
+      <a class="btn" href={t.nav[4].href}>{t.prenotaOra}</a>
+    </div>
   </div>
 </nav>
 
@@ -35,33 +50,71 @@ const path = Astro.url.pathname;
     padding-bottom: 18px;
   }
   .nav__mark {
-    font-family: var(--font-display);
-    font-size: 28px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    display: block;
+    height: 40px;
     color: var(--ink);
     text-decoration: none;
     transition: color 240ms ease;
   }
+  .nav__mark :global(.logo) { height: 100%; }
   .nav__mark:hover { text-decoration: none; }
+  .nav__mark:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
   .nav__links { display: flex; align-items: center; gap: 6px; }
   .nav__link {
+    position: relative;
     font-size: 13px;
     padding: 8px 14px;
     color: var(--ink);
     text-decoration: none;
-    transition: color 140ms ease, opacity 140ms ease;
+    transition: color 240ms ease;
   }
-  .nav__link:hover, .nav__link.is-active { text-decoration: none; opacity: .62; }
+  /* la barra parte da sinistra e cresce: il colore del testo non cambia mai */
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 2px;
+    height: 2px;
+    background: var(--teal);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 360ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .nav__link:hover, .nav__link:focus-visible { text-decoration: none; }
+  .nav__link:hover::after,
+  .nav__link:focus-visible::after,
+  .nav__link.is-active::after { transform: scaleX(1); }
+  .nav__link:focus-visible { outline: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav__link::after { transition: none; }
+  }
+
+  .nav__azioni { display: flex; align-items: center; gap: 16px; }
+  .nav__lingua {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: transform 160ms cubic-bezier(.22,.9,.28,1.2), opacity 140ms ease;
+  }
+  .nav__lingua img { display: block; width: 24px; height: 24px; object-fit: contain; }
+  .nav__lingua:hover { transform: scale(1.12); text-decoration: none; }
+  .nav__lingua:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .nav__lingua:active { transform: scale(.94); }
 
   /* stato sopra l'hero: barra trasparente su video scuro */
   .nav--over:not(.is-scrolled) {
     background: transparent;
     border-bottom-color: rgba(255,255,255,.28);
   }
-  .nav--over:not(.is-scrolled) .nav__mark { color: #fff; }
+  .nav--over:not(.is-scrolled) .nav__mark { color: #fff; --sp-wine: #fff; }
+  .nav--over:not(.is-scrolled) .nav__mark:focus-visible { outline-color: #fff; }
   .nav--over:not(.is-scrolled) .nav__link { color: rgba(255,255,255,.72); }
-  .nav--over:not(.is-scrolled) .nav__link:hover { color: #fff; opacity: 1; }
+  .nav--over:not(.is-scrolled) .nav__lingua:focus-visible { outline-color: #fff; }
 
   @media (max-width: 760px) {
     .nav__links { display: none; }

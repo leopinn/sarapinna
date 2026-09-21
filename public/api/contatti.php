@@ -20,21 +20,71 @@ const LIMITE_INVII = 3;              // per IP
 const FINESTRA_SECONDI = 600;        // in 10 minuti
 const LUNGHEZZA_MAX_MESSAGGIO = 5000;
 
+/**
+ * Messaggi nelle due lingue del sito. La lingua arriva dal form nel campo
+ * "lingua"; se manca o non e' prevista si resta in italiano.
+ */
+const MESSAGGI = [
+    'it' => [
+        'metodo'        => 'Metodo non consentito',
+        'smtp'          => 'SMTP non configurato sul server',
+        'corpo'         => 'Corpo della richiesta non valido',
+        'obbligatori'   => 'Compila tutti i campi obbligatori',
+        'emailNonValida' => 'Indirizzo email non valido',
+        'troppoLungo'   => 'Messaggio troppo lungo',
+        'campiNonValidi' => 'Campi non validi',
+        'troppiInvii'   => 'Troppi invii ravvicinati. Riprova tra qualche minuto.',
+        'invioFallito'  => 'Invio non riuscito',
+        'oggetto'       => 'Ho ricevuto il tuo messaggio',
+        'saluto'        => 'Ciao',
+        'corpoConferma' => 'grazie per avermi scritto: ho ricevuto la tua richiesta e ti rispondo al più presto.',
+        'etichettaCopia' => 'Il messaggio che mi hai inviato:',
+        'copiaTesto'    => 'Questo è il messaggio che mi hai inviato:',
+        'firma'         => 'A presto,',
+    ],
+    'en' => [
+        'metodo'        => 'Method not allowed',
+        'smtp'          => 'SMTP is not configured on the server',
+        'corpo'         => 'Invalid request body',
+        'obbligatori'   => 'Please fill in all the required fields',
+        'emailNonValida' => 'Invalid email address',
+        'troppoLungo'   => 'Message too long',
+        'campiNonValidi' => 'Invalid fields',
+        'troppiInvii'   => 'Too many messages in a short time. Please try again in a few minutes.',
+        'invioFallito'  => 'Could not send the message',
+        'oggetto'       => 'I got your message',
+        'saluto'        => 'Hi',
+        'corpoConferma' => 'thank you for writing: I have received your enquiry and I will reply as soon as I can.',
+        'etichettaCopia' => 'The message you sent me:',
+        'copiaTesto'    => 'This is the message you sent me:',
+        'firma'         => 'See you soon,',
+    ],
+];
+
 header('Content-Type: application/json; charset=utf-8');
 
+// La lingua serve gia' per il primo errore, quindi si legge il corpo prima.
+$corpoGrezzo = (string) file_get_contents('php://input');
+$datiGrezzi  = json_decode($corpoGrezzo, true);
+$lingua = is_array($datiGrezzi) ? (string) ($datiGrezzi['lingua'] ?? 'it') : 'it';
+if (!array_key_exists($lingua, MESSAGGI)) {
+    $lingua = 'it';
+}
+$m = MESSAGGI[$lingua];
+
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
-    rispondi(['errore' => 'Metodo non consentito'], 405);
+    rispondi(['errore' => $m['metodo']], 405);
 }
 
 $config = caricaConfig();
 if ($config['SMTP_USER'] === '' || $config['SMTP_PASS'] === '') {
     error_log('[contatti] credenziali SMTP mancanti: manca smtp-config.php?');
-    rispondi(['errore' => 'SMTP non configurato sul server'], 500);
+    rispondi(['errore' => $m['smtp']], 500);
 }
 
-$dati = json_decode((string) file_get_contents('php://input'), true);
+$dati = $datiGrezzi;
 if (!is_array($dati)) {
-    rispondi(['errore' => 'Corpo della richiesta non valido'], 400);
+    rispondi(['errore' => $m['corpo']], 400);
 }
 
 $nome      = trim((string) ($dati['nome'] ?? ''));
@@ -50,21 +100,21 @@ if ($esca !== '') {
 }
 
 if ($nome === '' || $cognome === '' || $email === '' || $messaggio === '') {
-    rispondi(['errore' => 'Compila tutti i campi obbligatori'], 422);
+    rispondi(['errore' => $m['obbligatori']], 422);
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    rispondi(['errore' => 'Indirizzo email non valido'], 422);
+    rispondi(['errore' => $m['emailNonValida']], 422);
 }
 if (mb_strlen($messaggio) > LUNGHEZZA_MAX_MESSAGGIO) {
-    rispondi(['errore' => 'Messaggio troppo lungo'], 422);
+    rispondi(['errore' => $m['troppoLungo']], 422);
 }
 // Niente a capo nei campi che finiscono nell'intestazione: evita header injection.
 if (preg_match('/[\r\n]/', $nome . $cognome . $email)) {
-    rispondi(['errore' => 'Campi non validi'], 422);
+    rispondi(['errore' => $m['campiNonValidi']], 422);
 }
 
 if (troppiInvii(indirizzoIp())) {
-    rispondi(['errore' => 'Troppi invii ravvicinati. Riprova tra qualche minuto.'], 429);
+    rispondi(['errore' => $m['troppiInvii']], 429);
 }
 
 $nomeCompleto = $nome . ' ' . $cognome;
@@ -88,7 +138,7 @@ try {
     $posta->send();
 } catch (PHPMailerException $e) {
     error_log('[contatti] invio fallito: ' . $e->getMessage());
-    rispondi(['errore' => 'Invio non riuscito'], 502);
+    rispondi(['errore' => $m['invioFallito']], 502);
 }
 
 // 2) Auto-risposta al visitatore. Se fallisce, la richiesta è comunque arrivata.
@@ -97,20 +147,20 @@ try {
     $conferma->setFrom($config['MAIL_FROM'], 'Sara Pinna');
     $conferma->addAddress($email, $nomeCompleto);
     $conferma->addReplyTo($config['MAIL_TO'], 'Sara Pinna');
-    $conferma->Subject = 'Ho ricevuto il tuo messaggio';
+    $conferma->Subject = $m['oggetto'];
     $conferma->isHTML(true);
     $conferma->Body = '
         <div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#1c1c1c">
-          <p style="margin:0 0 16px">Ciao ' . esc($nome) . ',</p>
-          <p style="margin:0 0 16px">grazie per avermi scritto: ho ricevuto la tua richiesta e ti rispondo al più presto.</p>
-          <p style="margin:0 0 8px;color:#6b6b6b;font-size:13px">Il messaggio che mi hai inviato:</p>
+          <p style="margin:0 0 16px">' . esc($m['saluto']) . ' ' . esc($nome) . ',</p>
+          <p style="margin:0 0 16px">' . esc($m['corpoConferma']) . '</p>
+          <p style="margin:0 0 8px;color:#6b6b6b;font-size:13px">' . esc($m['etichettaCopia']) . '</p>
           <div style="border-left:2px solid #d8d2c8;padding-left:16px;white-space:pre-wrap;color:#4a4a4a">' . esc($messaggio) . '</div>
-          <p style="margin:24px 0 0">A presto,<br /><strong>Sara Pinna</strong><br /><a href="https://sarapinna.it" style="color:#6b6b6b">sarapinna.it</a></p>
+          <p style="margin:24px 0 0">' . esc($m['firma']) . '<br /><strong>Sara Pinna</strong><br /><a href="https://sarapinna.it" style="color:#6b6b6b">sarapinna.it</a></p>
         </div>';
-    $conferma->AltBody = "Ciao {$nome},\n\n"
-        . "grazie per avermi scritto: ho ricevuto la tua richiesta e ti rispondo al più presto.\n\n"
-        . "Questo è il messaggio che mi hai inviato:\n\n{$messaggio}\n\n"
-        . "A presto,\nSara Pinna\nsarapinna.it\n";
+    $conferma->AltBody = "{$m['saluto']} {$nome},\n\n"
+        . "{$m['corpoConferma']}\n\n"
+        . "{$m['copiaTesto']}\n\n{$messaggio}\n\n"
+        . "{$m['firma']}\nSara Pinna\nsarapinna.it\n";
     $conferma->send();
 } catch (PHPMailerException $e) {
     error_log('[contatti] auto-risposta fallita: ' . $e->getMessage());

@@ -1,10 +1,10 @@
 ---
-import Base from '../layouts/Base.astro';
-import Galleria from '../components/Galleria.astro';
-import Contatti from '../components/Contatti.astro';
-import { linguaDa, testi } from '../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+import ChiSono from '../../components/ChiSono.astro';
+import Servizi from '../../components/Servizi.astro';
+import { linguaDa, testi } from '../../i18n/index.js';
 
-const p = testi[linguaDa(Astro.url.pathname)].pagine.galleria;
+const p = testi[linguaDa(Astro.url.pathname)].pagine.chiSono;
 ---
 
 <Base titolo={p.titolo} descrizione={p.descrizione}>
@@ -14,8 +14,8 @@ const p = testi[linguaDa(Astro.url.pathname)].pagine.galleria;
       <h1>{p.h1}</h1>
     </div>
   </div>
-  <Galleria />
-  <Contatti />
+  <ChiSono />
+  <Servizi />
 </Base>
 
 <style>

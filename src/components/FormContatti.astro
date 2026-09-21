@@ -1,37 +1,54 @@
-<form class="form" id="form-contatti" data-reveal>
-  <h3>Richiedi disponibilità</h3>
-  <p class="form__sub">Compila il modulo, ti rispondo via email.</p>
+---
+import { linguaDa, testi } from '../i18n/index.js';
+
+const lingua = linguaDa(Astro.url.pathname);
+const t = testi[lingua].form;
+---
+
+<form
+  class="form"
+  id="form-contatti"
+  data-reveal
+  data-lingua={lingua}
+  data-invio={t.invio}
+  data-invia={t.invia}
+  data-inviato={t.inviato}
+  data-grazie={t.grazie}
+  data-errore={t.erroreGenerico}
+>
+  <h3>{t.titolo}</h3>
+  <p class="form__sub">{t.sottotitolo}</p>
 
   <div class="form__riga">
     <label class="field">
-      <span>Nome <span class="req">*</span></span>
-      <input name="nome" type="text" placeholder="Nome" required autocomplete="given-name" />
+      <span>{t.nome} <span class="req">*</span></span>
+      <input name="nome" type="text" placeholder={t.nome} required autocomplete="given-name" />
     </label>
     <label class="field">
-      <span>Cognome <span class="req">*</span></span>
-      <input name="cognome" type="text" placeholder="Cognome" required autocomplete="family-name" />
+      <span>{t.cognome} <span class="req">*</span></span>
+      <input name="cognome" type="text" placeholder={t.cognome} required autocomplete="family-name" />
     </label>
   </div>
 
   <label class="field form__campo">
-    <span>Email <span class="req">*</span></span>
-    <input name="email" type="email" placeholder="nome@email.com" required autocomplete="email" />
+    <span>{t.email} <span class="req">*</span></span>
+    <input name="email" type="email" placeholder={t.emailSegnaposto} required autocomplete="email" />
   </label>
 
   <label class="field form__campo">
-    <span>Messaggio <span class="req">*</span></span>
-    <textarea name="messaggio" rows="5" placeholder="Date, numero di ospiti, domande…" required></textarea>
+    <span>{t.messaggio} <span class="req">*</span></span>
+    <textarea name="messaggio" rows="5" placeholder={t.messaggioSegnaposto} required></textarea>
   </label>
 
   <div class="form__esca" aria-hidden="true">
     <label>
-      Sito web
+      {t.esca}
       <input name="sito" type="text" tabindex="-1" autocomplete="off" />
     </label>
   </div>
 
   <div class="form__piede">
-    <button class="btn" type="submit">Invia messaggio</button>
+    <button class="btn" type="submit">{t.invia}</button>
     <span class="form__stato" role="status" aria-live="polite"></span>
   </div>
 </form>
@@ -66,13 +83,17 @@
     const bottone = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const stato = form.querySelector<HTMLElement>('.form__stato');
 
+    // le etichette arrivano dal server già tradotte: lo script non conosce le lingue
+    const d = form.dataset;
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!bottone || !stato) return;
       const dati = Object.fromEntries(new FormData(form));
+      dati.lingua = d.lingua ?? 'it';
 
       bottone.disabled = true;
-      bottone.textContent = 'Invio…';
+      bottone.textContent = d.invio ?? '…';
       stato.textContent = '';
 
       try {
@@ -85,13 +106,12 @@
         if (!r.ok) throw new Error(esito.errore || 'invio non riuscito');
 
         form.reset();
-        bottone.textContent = 'Inviato';
-        stato.textContent = 'Grazie! Ti rispondo al più presto.';
+        bottone.textContent = d.inviato ?? '';
+        stato.textContent = d.grazie ?? '';
       } catch (err) {
         bottone.disabled = false;
-        bottone.textContent = 'Invia messaggio';
-        stato.textContent =
-          (err instanceof Error && err.message) || 'Invio non riuscito. Scrivimi su WhatsApp o per email.';
+        bottone.textContent = d.invia ?? '';
+        stato.textContent = (err instanceof Error && err.message) || d.errore || '';
         console.error(err);
       }
     });

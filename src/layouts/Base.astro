@@ -3,17 +3,35 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import WhatsappWidget from '../components/WhatsappWidget.astro';
+import { linguaDa, pagine } from '../i18n/index.js';
 
 const { titolo, descrizione, navTrasparente = false } = Astro.props;
+
+const path = Astro.url.pathname;
+const lingua = linguaDa(path);
+
+// hreflang: dice a Google che le due versioni sono la stessa pagina in lingue
+// diverse, così non le tratta come contenuto duplicato.
+const origine = Astro.site?.origin ?? '';
+const coppia = pagine.find((c) => c.it === path.replace(/\/+$/, '') || c.en === path.replace(/\/+$/, ''));
+const urlIt = origine + (coppia?.it ?? '/');
+const urlEn = origine + (coppia?.en ?? '/en');
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang={lingua}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titolo}</title>
     <meta name="description" content={descrizione} />
+    <link rel="icon" href="/images/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/images/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" hreflang="it" href={urlIt} />
+    <link rel="alternate" hreflang="en" href={urlEn} />
+    <link rel="alternate" hreflang="x-default" href={urlIt} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

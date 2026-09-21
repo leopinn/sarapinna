@@ -1,0 +1,24 @@
+---
+// Il logo è inserito inline: le lettere usano currentColor (seguono il colore
+// del testo del contenitore) e l'accento usa --sp-wine, che si può ridefinire.
+import sorgente from '../../public/images/sara-pinna-logo.svg?raw';
+
+interface Props { class?: string }
+const { class: classe } = Astro.props;
+
+// Ogni istanza ha id propri per i clipPath: header e footer stanno nella stessa pagina
+const suffisso = Math.random().toString(36).slice(2, 8);
+const svg = sorgente
+  .replace(/<metadata>[\s\S]*?<\/metadata>/, '')
+  .replace(/<title>[\s\S]*?<\/title>/, '')
+  .replace(/\s*xmlns:c2pa="[^"]*"/, '')
+  .replace(/\s*role="img"\s*aria-label="[^"]*"/, ' aria-hidden="true" focusable="false"')
+  .replace(/sp-c([lr])/g, `sp-c$1-${suffisso}`);
+---
+
+<span class:list={['logo', classe]} set:html={svg} />
+
+<style>
+  .logo { display: inline-block; line-height: 0; }
+  .logo :global(svg) { display: block; height: 100%; width: auto; }
+</style>

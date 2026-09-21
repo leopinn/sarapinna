@@ -1,8 +1,8 @@
 ---
-import Base from '../layouts/Base.astro';
-import Galleria from '../components/Galleria.astro';
-import Contatti from '../components/Contatti.astro';
-import { linguaDa, testi } from '../i18n/index.js';
+import Base from '../../layouts/Base.astro';
+import Galleria from '../../components/Galleria.astro';
+import Contatti from '../../components/Contatti.astro';
+import { linguaDa, testi } from '../../i18n/index.js';
 
 const p = testi[linguaDa(Astro.url.pathname)].pagine.galleria;
 ---

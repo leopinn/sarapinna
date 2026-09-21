@@ -5,13 +5,12 @@ import ChiSono from '../components/ChiSono.astro';
 import Servizi from '../components/Servizi.astro';
 import Galleria from '../components/Galleria.astro';
 import Contatti from '../components/Contatti.astro';
+import { linguaDa, testi } from '../i18n/index.js';
+
+const p = testi[linguaDa(Astro.url.pathname)].pagine.home;
 ---
 
-<Base
-  titolo="Sara Pinna — Affitti brevi a Verona e Isola della Scala"
-  descrizione="Appartamenti in affitto breve tra Isola della Scala e Verona. Accoglienza curata di persona, prenotazioni su Airbnb e Booking."
-  navTrasparente={true}
->
+<Base titolo={p.titolo} descrizione={p.descrizione} navTrasparente={true}>
   <Hero />
   <ChiSono />
   <Servizi />

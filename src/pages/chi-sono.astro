@@ -2,13 +2,16 @@
 import Base from '../layouts/Base.astro';
 import ChiSono from '../components/ChiSono.astro';
 import Servizi from '../components/Servizi.astro';
+import { linguaDa, testi } from '../i18n/index.js';
+
+const p = testi[linguaDa(Astro.url.pathname)].pagine.chiSono;
 ---
 
-<Base titolo="Chi sono — Sara Pinna" descrizione="Ho 28 anni e accolgo ospiti tra Isola della Scala e Verona: ogni soggiorno lo curo di persona.">
+<Base titolo={p.titolo} descrizione={p.descrizione}>
   <div class="testata">
     <div class="container">
-      <p class="eyebrow">Chi sono</p>
-      <h1>Racconto breve, casa vera</h1>
+      <p class="eyebrow">{p.eyebrow}</p>
+      <h1>{p.h1}</h1>
     </div>
   </div>
   <ChiSono />

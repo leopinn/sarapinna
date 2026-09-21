@@ -1,55 +1,96 @@
 ---
+import { linguaDa, testi } from '../i18n/index.js';
+
 interface Props { compatto?: boolean }
 const { compatto = false } = Astro.props;
+
+const t = testi[linguaDa(Astro.url.pathname)].chiSono;
 ---
 
-<section class="section" id="chi-sono">
-  <div class="container split">
-    <div data-reveal>
-      <p class="eyebrow">Chi sono</p>
-      <h2>Ospitalità fatta a mano, una casa alla volta</h2>
-      <p class="lead">Ho 28 anni e accolgo ospiti tra Isola della Scala e Verona.</p>
-      <p class="testo">
-        Ho iniziato con un appartamento e la voglia di far sentire le persone a casa anche lontano
-        da casa. Oggi gestisco i miei alloggi su Airbnb e Booking e curo tutto io: la pulizia, il
-        check-in, i messaggi a cui rispondo anche la sera tardi.
-      </p>
-      <p class="testo">
-        Chi arriva trova le chiavi, un frigo con qualcosa dentro e una mappa dei posti dove mangio
-        io — non quelli delle guide. Se hai bisogno di una culla, di un parcheggio o di un consiglio
-        sull'Arena, basta scrivermi.
-      </p>
+<section class="section chi-sono" id="chi-sono">
+  <div class="container">
+    <div class="chi-sono__testo" data-reveal>
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h2>{t.titolo}</h2>
+      <p class="lead">{t.lead}</p>
+      <p class="testo">{t.testo1}</p>
+      <p class="testo">{t.testo2}</p>
       {!compatto && (
         <div class="numeri">
-          <div><p class="numeri__n">2</p><p class="numeri__l">Appartamenti gestiti</p></div>
-          <div><p class="numeri__n">15′</p><p class="numeri__l">Dal centro di Verona</p></div>
-          <div><p class="numeri__n">1</p><p class="numeri__l">Persona che risponde: io</p></div>
+          {t.numeri.map((n) => (
+            <div><p class="numeri__n">{n.n}</p><p class="numeri__l">{n.l}</p></div>
+          ))}
         </div>
       )}
     </div>
-    <figure class="ritratto" data-reveal>
-      <img src="/images/sara.jpg" alt="Sara Pinna" loading="lazy" />
-      <figcaption>Sara Pinna, Isola della Scala (VR)</figcaption>
-    </figure>
   </div>
+
+  <figure class="ritratto" data-reveal>
+    <img src="/images/sara.jpg" alt={t.ritrattoAlt} loading="lazy" />
+  </figure>
 </section>
 
 <style>
-  .split {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-    gap: 64px;
-    align-items: center;
-  }
+  /* Il bordo sinistro della foto: poco oltre la metà, non esattamente al centro. */
+  .chi-sono { --stacco: 52%; position: relative; }
+
+  /* Stesso respiro sopra e sotto, così la foto si stacca sia da ciò che precede
+     sia dalle Esperienze. Serve il margine e non il padding, perché la foto
+     copre anche il padding. */
+  .chi-sono { margin: 48px 0; }
+
+  /* Il testo resta dentro il container, allineato alle altre sezioni; la
+     larghezza è limitata anche in vw perché non finisca sotto la foto. */
+  .chi-sono__testo { max-width: min(34em, 40vw); }
+
   .lead { font-weight: 500; font-size: 20px; line-height: 1.5; margin: 24px 0; }
   h2 { margin-top: 24px; }
-  .testo { max-width: 36em; margin-bottom: 16px; }
+  .testo { margin-bottom: 16px; }
   .numeri { display: flex; flex-wrap: wrap; border-top: 1px solid var(--hairline); margin-top: 32px; }
   .numeri > div { flex: 1 1 140px; padding: 24px 24px 0 0; min-width: 0; }
   .numeri__n { font-family: var(--font-display); font-weight: 400; font-size: 56px; line-height: 1; letter-spacing: 2.25px; }
   .numeri__l { font-size: 13px; color: var(--fog); margin-top: 8px; }
-  .ritratto { margin: 0; min-width: 0; }
-  .ritratto img { display: block; width: 100%; height: 600px; object-fit: cover; background: var(--mist); }
-  .ritratto figcaption { font-size: 13px; color: var(--fog); margin-top: 16px; }
-  @media (max-width: 900px) { .ritratto img { height: 420px; } }
+
+  /* La foto esce dal container: occupa tutta l'altezza della sezione e
+     arriva a filo del bordo destro della pagina. */
+  .ritratto {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: var(--stacco);
+    margin: 0;
+  }
+  .ritratto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--mist);
+  }
+  .ritratto figcaption {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    font-size: 13px;
+    color: rgba(255,255,255,.82);
+    text-shadow: 0 1px 8px rgba(25,27,31,.6);
+  }
+
+  /* sotto i 900px: testo sopra, foto sotto a tutta larghezza */
+  @media (max-width: 900px) {
+    .chi-sono { margin: 32px 0; }
+    .chi-sono__testo { max-width: 34em; }
+    .ritratto {
+      position: static;
+      margin-top: 64px;
+    }
+    .ritratto img { height: 420px; }
+    .ritratto figcaption {
+      position: static;
+      color: var(--fog);
+      text-shadow: none;
+      margin: 16px 32px 0;
+    }
+  }
 </style>

@@ -1,29 +1,34 @@
 ---
 import { galleria } from '../data/site.js';
+import { linguaDa, testi } from '../i18n/index.js';
+
+const lingua = linguaDa(Astro.url.pathname);
+const t = testi[lingua].galleria;
+const foto = galleria.map((f) => ({ ...f, alt: f.alt[lingua] }));
 ---
 
 <section class="section" id="galleria">
   <div class="container">
     <header class="intro" data-reveal>
       <div>
-        <p class="eyebrow">Galleria</p>
-        <h2>Dove soggiornerai</h2>
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h2>{t.titolo}</h2>
       </div>
       <p class="hint">
-        <span class="hint__desktop">Passa sopra una foto per aprirla, clicca per vederla grande</span>
-        <span class="hint__mobile">Tocca una foto per vederla grande</span>
+        <span class="hint__desktop">{t.indicazioneDesktop}</span>
+        <span class="hint__mobile">{t.indicazioneMobile}</span>
       </p>
     </header>
 
     <div class="accordion" data-reveal>
-      {galleria.map((f, i) => (
+      {foto.map((f, i) => (
         <button
           class:list={['pannello', { 'is-aperto': i === 0 }]}
           style={`transition-delay:${i * 80}ms`}
           data-src={f.src}
           data-alt={f.alt}
           type="button"
-          aria-label={`Apri: ${f.alt}`}
+          aria-label={`${t.apri}: ${f.alt}`}
         >
           <img src={f.src} alt={f.alt} loading="lazy" />
           <span class="pannello__velo"></span>
@@ -39,7 +44,7 @@ import { galleria } from '../data/site.js';
 
 <div class="lightbox" hidden>
   <img alt="" />
-  <span class="lightbox__chiudi">Chiudi ✕</span>
+  <span class="lightbox__chiudi">{t.chiudi}</span>
 </div>
 
 <style>

@@ -1,21 +1,21 @@
 ---
-import { site } from '../data/site.js';
+import { linguaDa, testi } from '../i18n/index.js';
+
+const lingua = linguaDa(Astro.url.pathname);
+const t = testi[lingua];
 ---
 
 <section class="hero">
   <video class="hero__video" src="/media/verona-hero.mp4" autoplay muted loop playsinline preload="auto"></video>
   <div class="hero__scrim"></div>
   <div class="hero__content container">
-    <p class="eyebrow hero__eyebrow" data-reveal-hero>{site.claim}</p>
-    <h1 data-reveal-hero>La tua chiave per Verona</h1>
-    <p class="hero__testo" data-reveal-hero>
-      Ospitalità su misura a Verona. Da me, per te.
-    </p>
+    <h1 data-reveal-hero>{t.hero.titolo}</h1>
+    <p class="hero__testo" data-reveal-hero>{t.hero.testo}</p>
     <div class="hero__azioni" data-reveal-hero>
-      <a class="btn btn--ghost" href="/chi-sono">Conoscimi</a>
-      <a class="btn" href="/servizi">Prenota</a>
+      <a class="btn btn--ghost" href={t.nav[1].href}>{t.hero.conoscimi}</a>
+      <a class="btn" href={t.nav[2].href}>{t.hero.prenota}</a>
     </div>
-    <div class="hero__cue"><span></span> Scorri</div>
+    <div class="hero__cue"><span></span> {t.hero.scorri}</div>
   </div>
 </section>
 
