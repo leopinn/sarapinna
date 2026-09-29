@@ -1,7 +1,7 @@
 /**
  * Gestione delle due lingue del sito.
  *
- * L'italiano sta in radice (/chi-sono), l'inglese sotto /en (/en/about):
+ * L'italiano sta in radice (/esperienze), l'inglese sotto /en (/en/experiences):
  * sono due copie statiche vere, quindi Google indicizza entrambe e i link
  * sono condivisibili. Ogni componente ricava la lingua dall'indirizzo con
  * `linguaDa(Astro.url.pathname)` e legge i testi da `testi[lingua]`.
@@ -13,13 +13,12 @@
 /** Coppie di indirizzi: servono alla bandiera per trovare la pagina gemella. */
 export const pagine = [
   { it: '/', en: '/en' },
-  { it: '/chi-sono', en: '/en/about' },
-  { it: '/servizi', en: '/en/experiences' },
-  { it: '/galleria', en: '/en/gallery' },
+  { it: '/esperienze', en: '/en/experiences' },
+  { it: '/about', en: '/en/about' },
   { it: '/contatti', en: '/en/contact' },
 ];
 
-/** In build gli indirizzi arrivano con lo slash finale: "/chi-sono/" → "/chi-sono". */
+/** In build gli indirizzi arrivano con lo slash finale: "/about/" → "/about". */
 const normalizza = (percorso) => {
   const p = percorso.replace(/\/+$/, '');
   return p === '' ? '/' : p;
@@ -49,63 +48,66 @@ export const testi = {
     bandieraAlt: 'Italiano',
     cambioLingua: 'Passa alla versione in inglese',
 
+    // L'ordine conta: [0] è la home (il marchio), [3] è la pagina contatti,
+    // a cui puntano il bottone del menù e le chiamate all'azione.
     nav: [
       { label: 'Home', href: '/' },
-      { label: 'Chi sono', href: '/chi-sono' },
-      { label: 'Esperienze', href: '/servizi' },
-      { label: 'Galleria', href: '/galleria' },
+      { label: 'Esperienze', href: '/esperienze' },
+      { label: 'About', href: '/about' },
       { label: 'Contatti', href: '/contatti' },
     ],
-    prenotaOra: 'Prenota ora',
+    prenotaOra: 'Prenota',
 
     hero: {
-      titolo: "L'esperta di viaggi autentici",
-      testo: 'Lasciati guidare alla scoperta di Verona.',
-      conoscimi: 'Conoscimi',
-      prenota: 'Prenota',
+      claim: 'Experience creator · Verona e territorio',
+      titolo: 'Vivi Verona diversamente',
+      testo:
+        'Esperienze locali curate, create insieme a chi questo territorio lo conosce davvero.',
+      esplora: 'Scopri le esperienze',
+      contatta: 'Parliamone',
       scorri: 'Scorri',
     },
 
-    chiSono: {
-      eyebrow: 'Chi sono',
-      titolo: 'Ospitalità fatta a mano, una casa alla volta',
-      lead: 'Ho 28 anni e accolgo ospiti tra Isola della Scala e Verona.',
+    about: {
+      eyebrow: 'About',
+      titolo: 'Creo esperienze, non rivendo tour',
+      lead:
+        'Ideo e organizzo esperienze sul territorio di Verona: metto insieme attività, luoghi e partner locali e li trasformo in giornate complete da vivere.',
       testo1:
-        'Ho iniziato con un appartamento e la voglia di far sentire le persone a casa anche lontano da casa. Oggi gestisco i miei alloggi su Airbnb e Booking e curo tutto io: la pulizia, il check-in, i messaggi a cui rispondo anche la sera tardi.',
+        'Il progetto nasce per portare a Verona e nei dintorni esperienze curate davvero. Non sono sempre io a svolgere ogni attività: il mio lavoro è ideare il format, trovare i partner giusti, mettere insieme i vari elementi e coordinare l’esperienza dall’inizio alla fine.',
       testo2:
-        'Chi arriva trova le chiavi, un frigo con qualcosa dentro e una mappa dei posti dove mangio io — non quelli delle guide. Se hai bisogno di una culla, di un parcheggio o di un consiglio sull’Arena, basta scrivermi.',
+        'Collaboro con cantine, ristoranti, chef, guide, maneggi, strutture ricettive e servizi particolari come le auto d’epoca. Ognuno fa quello che sa fare meglio; io tengo insieme i pezzi e rispondo di come va la giornata.',
       numeri: [
-        { n: '2', l: 'Appartamenti gestiti' },
-        { n: '15′', l: 'Dal centro di Verona' },
-        { n: '1', l: 'Persona che risponde: io' },
+        { n: '5', l: 'Esperienze in preparazione' },
+        { n: '100%', l: 'Partner del territorio' },
+        { n: '1', l: 'Persona che coordina tutto: io' },
       ],
       ritrattoAlt: 'Sara Pinna',
-      ritrattoDidascalia: 'Sara Pinna, Isola della Scala (VR)',
       blocchi: [
         {
-          titolo: 'Verona, ogni volta per la prima volta',
-          fotoAlt: 'Scorcio di Verona',
+          titolo: 'Non il solito tour turistico',
+          fotoAlt: 'Un momento di un’esperienza a Verona',
           paragrafi: [
-            'Ci sono vissuta accanto tutta la vita, eppure Verona riesce ancora a sorprendermi. Succede quando la mostro a qualcuno: lo vedo alzare gli occhi in Piazza delle Erbe, rallentare sul Ponte Pietra, restare in silenzio davanti all’Arena. In quel momento la città torna nuova anche per me.',
-            'È la parte più bella di quello che faccio. Non raccontare date e monumenti, ma condividere la sensazione di un posto che amo: il profumo delle osterie a mezzogiorno, la luce dorata sull’Adige al tramonto, il vino che ha il sapore delle colline qui intorno.',
-            'Quando un ospite mi scrive, giorni dopo, che Verona gli è rimasta addosso, so di aver fatto la cosa giusta.',
+            'Verona è piena di giri organizzati che si assomigliano tutti: stessi orari, stesse tappe, stesse fotografie. Io sono partita dall’idea opposta, e cioè da quello che mi piacerebbe vivere se arrivassi qui per la prima volta.',
+            'Da qui nascono esperienze più autentiche e più belle da vivere: gruppi piccoli, luoghi veri, persone del posto che raccontano il proprio mestiere. E curate anche nell’immagine, perché il modo in cui un’esperienza si presenta fa parte dell’esperienza.',
+            'Il risultato non è un elenco di monumenti visti di corsa, ma una giornata che ti resta addosso.',
           ],
         },
         {
-          titolo: 'Ogni dettaglio, curato da me',
-          fotoAlt: 'Sara organizza un’esperienza a Verona',
+          titolo: 'Come nasce un’esperienza',
+          fotoAlt: 'Sara al lavoro sull’organizzazione di un’esperienza',
           paragrafi: [
-            'Ogni esperienza nasce da una chiacchierata. Ti chiedo cosa ti piace, con chi viaggi, quanto tempo hai e che ritmo preferisci: da lì costruisco una giornata pensata per te, non un pacchetto uguale per tutti.',
-            'Scelgo di persona le cantine, i produttori e i posti in cui ti porto, perché li conosco e mi fido di loro. Prenoto, confermo, controllo orari e spostamenti, e ti mando tutto per tempo, così tu devi solo presentarti.',
-            'Serietà e puntualità per me non sono un extra: sono il minimo. Se qualcosa cambia, lo sai subito da me, e troviamo insieme un’alternativa.',
+            'Prima viene l’idea: che cosa voglio far provare, in che luogo, con che ritmo. Poi cerco i partner giusti — una cantina, uno chef, una guida, un maneggio, un’auto d’epoca — e li incontro di persona, perché l’esperienza vale quanto vale chi la porta avanti.',
+            'A quel punto metto insieme i pezzi: tempi, spostamenti, soste, materiali. Provo il percorso, aggiusto quello che non funziona e solo alla fine lo apro alle prenotazioni.',
+            'Le prenotazioni passano soprattutto da Airbnb Experiences, ma se vuoi qualcosa di costruito su misura — una data particolare, un gruppo, un’occasione — scrivimi e ne parliamo.',
           ],
         },
       ],
       perche: {
         titolo: 'Perché scegliermi?',
         voci: [
-          'Guida privata da una vera local',
-          'Senza costi di pianificazione',
+          'Esperienze ideate, non rivendute',
+          'Partner locali scelti uno a uno',
           'Niente classiche attività turistiche',
         ],
       },
@@ -113,38 +115,38 @@ export const testi = {
 
     esperienze: {
       eyebrow: 'Esperienze',
-      titolo: 'Le esperienze che organizzo a Verona',
-      cta: 'Richiedi disponibilità',
-    },
-
-    galleria: {
-      eyebrow: 'Galleria',
-      titolo: 'Dove soggiornerai',
-      indicazioneDesktop: 'Passa sopra una foto per aprirla, clicca per vederla grande',
-      indicazioneMobile: 'Tocca una foto per vederla grande',
-      apri: 'Apri',
-      chiudi: 'Chiudi ✕',
+      titolo: 'Le esperienze che sto creando',
+      intro:
+        'Verona e il suo territorio raccontati attraverso il vino, la cucina, la campagna e qualche mezzo fuori dal comune. Ogni esperienza nasce insieme a partner locali scelti di persona.',
+      indicazioneDesktop: 'Passa sopra una foto per scoprirla, clicca per i dettagli',
+      indicazioneMobile: 'Tocca una foto per i dettagli',
+      apri: 'Scopri',
+      cta: 'Richiedi informazioni',
+      prenotaAirbnb: 'Prenota su Airbnb',
+      nota:
+        'I nomi sono provvisori e il calendario è in costruzione: scrivimi per sapere quando parte l’esperienza che ti interessa.',
     },
 
     contatti: {
       eyebrow: 'Contatti',
-      titolo: 'Quindi, iniziamo?',
+      titolo: 'Quindi, pronto a iniziare?',
       testo:
         'Per disponibilità, preventivi o una domanda sulle esperienze. Di solito rispondo entro poche ore.',
-      doveSono: 'Dove sono',
+      doveSono: 'Dove opero',
+      dove: 'Verona e provincia',
       telefono: 'Telefono e WhatsApp',
       email: 'Email',
     },
 
     form: {
-      titolo: 'Richiedi disponibilità',
+      titolo: 'Richiedi informazioni',
       sottotitolo: 'Compila il modulo, ti rispondo via email.',
       nome: 'Nome',
       cognome: 'Cognome',
       email: 'Email',
       emailSegnaposto: 'nome@email.com',
       messaggio: 'Messaggio',
-      messaggioSegnaposto: 'Date, tipo di esperienza, domande…',
+      messaggioSegnaposto: 'Quale esperienza ti interessa, quante persone, in che date…',
       esca: 'Sito web',
       invia: 'Invia messaggio',
       invio: 'Invio…',
@@ -155,51 +157,45 @@ export const testi = {
 
     footer: {
       testo:
-        "Trasforma il tuo soggiorno in un'esperienza indimenticabile a Verona",
+        'Esperienze curate a Verona e nel suo territorio, ideate e coordinate insieme a partner locali.',
       instagram: 'Profilo Instagram',
       airbnb: 'Pagina Airbnb',
       colonnaSito: 'Sito',
       colonnaPrenota: 'Prenota',
       colonnaContatti: 'Contatti',
-      richiedi: 'Richiedi disponibilità',
+      richiedi: 'Richiedi informazioni',
       diritti: 'Tutti i diritti riservati',
     },
 
     whatsapp: {
       etichetta: 'Scrivimi su WhatsApp',
-      messaggio: 'Ciao Sara, vorrei informazioni sulla disponibilità',
+      messaggio: 'Ciao Sara, vorrei informazioni sulle esperienze',
     },
 
     pagine: {
       home: {
-        titolo: 'Sara Pinna — Affitti brevi a Verona e Isola della Scala',
+        titolo: 'Sara Pinna — Esperienze a Verona e nel territorio',
         descrizione:
-          'Appartamenti in affitto breve tra Isola della Scala e Verona. Accoglienza curata di persona, prenotazioni su Airbnb e Booking.',
+          'Esperienze locali curate a Verona e dintorni: vino, cucina veronese, auto d’epoca, cavallo e borghi. Ideate e coordinate insieme a partner del posto.',
       },
-      chiSono: {
-        titolo: 'Chi sono — Sara Pinna',
-        descrizione:
-          'Ho 28 anni e accolgo ospiti tra Isola della Scala e Verona: ogni soggiorno lo curo di persona.',
-        eyebrow: 'Chi sono',
-        h1: 'Racconto breve, casa vera',
-      },
-      servizi: {
+      esperienze: {
         titolo: 'Esperienze — Sara Pinna',
         descrizione:
-          'Tour guidato di Verona, degustazioni di vini locali e giri in auto d’epoca: le esperienze che organizzo per i miei ospiti.',
+          'Wine & food a Verona, cooking class con chef, auto d’epoca, cavallo e degustazioni, Soave e il suo borgo: le esperienze che creo sul territorio veronese.',
         eyebrow: 'Esperienze',
-        h1: 'Verona, non solo dormire',
+        h1: 'Verona, una giornata alla volta',
       },
-      galleria: {
-        titolo: 'Galleria — Sara Pinna',
-        descrizione: 'Le foto degli appartamenti: soggiorno, camere, cucina e dettagli.',
-        eyebrow: 'Galleria',
-        h1: 'Le case, in fotografia',
+      about: {
+        titolo: 'About — Sara Pinna',
+        descrizione:
+          'Ideo e coordino esperienze a Verona e nel territorio, mettendo insieme attività, luoghi e partner locali.',
+        eyebrow: 'About',
+        h1: 'Chi c’è dietro le esperienze',
       },
       contatti: {
         titolo: 'Contatti — Sara Pinna',
         descrizione:
-          'Telefono, WhatsApp, email e modulo di contatto per richiedere disponibilità.',
+          'Telefono, WhatsApp, email e modulo di contatto per informazioni sulle esperienze a Verona.',
         eyebrow: 'Contatti',
         h1: 'Parliamone',
       },
@@ -215,79 +211,79 @@ export const testi = {
 
     nav: [
       { label: 'Home', href: '/en' },
-      { label: 'About', href: '/en/about' },
       { label: 'Experiences', href: '/en/experiences' },
-      { label: 'Gallery', href: '/en/gallery' },
+      { label: 'About', href: '/en/about' },
       { label: 'Contact', href: '/en/contact' },
     ],
-    prenotaOra: 'Book now',
+    prenotaOra: 'Book',
 
     hero: {
-      titolo: 'The authentic travel expert',
-      testo: 'Let me guide you through Verona.',
-      conoscimi: 'Meet me',
-      prenota: 'Book',
+      claim: 'Experience creator · Verona and around',
+      titolo: 'Experience Verona differently',
+      testo:
+        'Curated local experiences, created with the people who know this land best.',
+      esplora: 'See the experiences',
+      contatta: 'Let’s talk',
       scorri: 'Scroll',
     },
 
-    chiSono: {
+    about: {
       eyebrow: 'About',
-      titolo: 'Handmade hospitality, one home at a time',
-      lead: 'I’m 28 and I host guests between Isola della Scala and Verona.',
+      titolo: 'I create experiences, I don’t resell tours',
+      lead:
+        'I design and organise experiences around Verona: I bring together activities, places and local partners and turn them into complete days worth living.',
       testo1:
-        'I started with one apartment and the wish to make people feel at home even when they are far from home. Today I run my places on Airbnb and Booking and I look after everything myself: the cleaning, the check-in, the messages I answer late in the evening too.',
+        'The project started to bring genuinely curated experiences to Verona and the area around it. I am not always the one running every activity: my job is to design the format, find the right partners, put the pieces together and coordinate the experience from start to finish.',
       testo2:
-        'You’ll find the keys waiting, a fridge with something in it and a map of the places where I eat — not the ones in the guidebooks. If you need a cot, a parking spot or advice about the Arena, just write to me.',
+        'I work with wineries, restaurants, chefs, guides, riding stables, places to stay and unusual services such as classic cars. Each of them does what they do best; I hold it all together and answer for how the day goes.',
       numeri: [
-        { n: '2', l: 'Apartments I run' },
-        { n: '15′', l: 'From the centre of Verona' },
-        { n: '1', l: 'Person who answers: me' },
+        { n: '5', l: 'Experiences in the making' },
+        { n: '100%', l: 'Local partners' },
+        { n: '1', l: 'Person coordinating it all: me' },
       ],
       ritrattoAlt: 'Sara Pinna',
-      ritrattoDidascalia: 'Sara Pinna, Isola della Scala (Verona)',
       blocchi: [
         {
-          titolo: 'Verona, every time like the first time',
-          fotoAlt: 'A view of Verona',
+          titolo: 'Not the usual tourist tour',
+          fotoAlt: 'A moment from an experience in Verona',
           paragrafi: [
-            'I have lived next to it all my life, and yet Verona still manages to surprise me. It happens when I show it to someone: I see them look up in Piazza delle Erbe, slow down on Ponte Pietra, fall silent in front of the Arena. In that moment the city feels new to me too.',
-            'That is the best part of what I do. Not reciting dates and monuments, but sharing the feeling of a place I love: the smell of the osterie at noon, the golden light on the Adige at sunset, wine that tastes of the hills around us.',
-            'When a guest writes to me, days later, to say Verona has stayed with them, I know I got it right.',
+            'Verona is full of organised tours that all look alike: same timings, same stops, same photographs. I started from the opposite idea — from what I would want to live if I arrived here for the first time.',
+            'That is where these experiences come from: small groups, real places, local people talking about their own craft. And looked after down to the way they are presented, because how an experience looks is part of the experience.',
+            'The result is not a list of monuments seen in a hurry, but a day that stays with you.',
           ],
         },
         {
-          titolo: 'Every detail, looked after by me',
-          fotoAlt: 'Sara arranging an experience in Verona',
+          titolo: 'How an experience comes together',
+          fotoAlt: 'Sara working on the planning of an experience',
           paragrafi: [
-            'Every experience starts with a chat. I ask what you enjoy, who you are travelling with, how much time you have and what pace you prefer: from there I build a day made for you, not a package that is the same for everyone.',
-            'I choose the wineries, the producers and the places I take you to myself, because I know them and I trust them. I book, confirm, check times and transfers, and send you everything in good time, so all you have to do is show up.',
-            'Reliability and punctuality are not an extra for me: they are the bare minimum. If anything changes, you hear it from me straight away, and we find an alternative together.',
+            'First comes the idea: what I want people to feel, in which place, at what pace. Then I look for the right partners — a winery, a chef, a guide, a riding stable, a classic car — and I meet them in person, because an experience is only as good as the people running it.',
+            'Then I put the pieces together: timings, transfers, stops, materials. I try the route myself, fix what does not work, and only then open it to bookings.',
+            'Bookings mostly go through Airbnb Experiences, but if you want something built around you — a particular date, a group, a special occasion — write to me and we will talk it through.',
           ],
         },
       ],
       perche: {
         titolo: 'Why choose me?',
         voci: [
-          'A private guide who is a real local',
-          'No planning fees',
-          'No typical tourist traps',
+          'Experiences created, not resold',
+          'Local partners chosen one by one',
+          'No typical tourist activities',
         ],
       },
     },
 
     esperienze: {
       eyebrow: 'Experiences',
-      titolo: 'The experiences I arrange in Verona',
-      cta: 'Ask about availability',
-    },
-
-    galleria: {
-      eyebrow: 'Gallery',
-      titolo: 'Where you’ll be staying',
-      indicazioneDesktop: 'Hover a photo to open it, click to see it full size',
-      indicazioneMobile: 'Tap a photo to see it full size',
-      apri: 'Open',
-      chiudi: 'Close ✕',
+      titolo: 'The experiences I am creating',
+      intro:
+        'Verona and its land told through wine, food, the countryside and a few unusual ways of getting around. Every experience is built with local partners I choose myself.',
+      indicazioneDesktop: 'Hover a photo to discover it, click for the details',
+      indicazioneMobile: 'Tap a photo for the details',
+      apri: 'Discover',
+      cta: 'Ask for details',
+      prenotaAirbnb: 'Book on Airbnb',
+      nota:
+        'Names are provisional and the calendar is still being built: write to me to find out when the experience you like starts.',
     },
 
     contatti: {
@@ -295,21 +291,21 @@ export const testi = {
       titolo: 'So, ready to get started?',
       testo:
         'For availability, quotes or a question about the experiences. I usually reply within a few hours.',
-      doveSono: 'Where I am',
-      distanza: '15 minutes from the centre, 20 from the exhibition centre',
+      doveSono: 'Where I work',
+      dove: 'Verona and its province',
       telefono: 'Phone and WhatsApp',
       email: 'Email',
     },
 
     form: {
-      titolo: 'Ask about availability',
+      titolo: 'Ask for details',
       sottotitolo: 'Fill in the form and I’ll reply by email.',
       nome: 'First name',
       cognome: 'Last name',
       email: 'Email',
       emailSegnaposto: 'name@email.com',
       messaggio: 'Message',
-      messaggioSegnaposto: 'Dates, type of experience, questions…',
+      messaggioSegnaposto: 'Which experience you like, how many people, which dates…',
       esca: 'Website',
       invia: 'Send message',
       invio: 'Sending…',
@@ -320,50 +316,45 @@ export const testi = {
 
     footer: {
       testo:
-        'Turn your stay in Verona into an unforgettable experience',
+        'Curated experiences in Verona and the land around it, designed and coordinated with local partners.',
       instagram: 'Instagram profile',
       airbnb: 'Airbnb page',
       colonnaSito: 'Site',
       colonnaPrenota: 'Book',
       colonnaContatti: 'Contact',
-      richiedi: 'Ask about availability',
+      richiedi: 'Ask for details',
       diritti: 'All rights reserved',
     },
 
     whatsapp: {
       etichetta: 'Message me on WhatsApp',
-      messaggio: 'Hi Sara, I’d like to know about availability',
+      messaggio: 'Hi Sara, I’d like to know more about the experiences',
     },
 
     pagine: {
       home: {
-        titolo: 'Sara Pinna — Short stays in Verona and Isola della Scala',
+        titolo: 'Sara Pinna — Experiences in Verona and around',
         descrizione:
-          'Short-stay apartments between Isola della Scala and Verona. Welcomed in person, bookable on Airbnb and Booking.',
+          'Curated local experiences in Verona and the area around it: wine, Veronese cooking, classic cars, horse riding and villages. Created with local partners.',
       },
-      chiSono: {
-        titolo: 'About — Sara Pinna',
-        descrizione:
-          'I’m 28 and I host guests between Isola della Scala and Verona: I look after every stay myself.',
-        eyebrow: 'About',
-        h1: 'A short story, a real home',
-      },
-      servizi: {
+      esperienze: {
         titolo: 'Experiences — Sara Pinna',
         descrizione:
-          'Guided tours of Verona, local wine tastings and vintage car rides: the experiences I arrange for my guests.',
+          'Wine & food in Verona, a cooking class with a chef, classic cars, horse riding with tastings, Soave and its old village: the experiences I create around Verona.',
         eyebrow: 'Experiences',
-        h1: 'Verona, not just a place to sleep',
+        h1: 'Verona, one day at a time',
       },
-      galleria: {
-        titolo: 'Gallery — Sara Pinna',
-        descrizione: 'Photos of the apartments: living room, bedrooms, kitchen and details.',
-        eyebrow: 'Gallery',
-        h1: 'The homes, in photographs',
+      about: {
+        titolo: 'About — Sara Pinna',
+        descrizione:
+          'I design and coordinate experiences in Verona and the land around it, bringing together activities, places and local partners.',
+        eyebrow: 'About',
+        h1: 'The person behind the experiences',
       },
       contatti: {
         titolo: 'Contact — Sara Pinna',
-        descrizione: 'Phone, WhatsApp, email and a contact form to ask about availability.',
+        descrizione:
+          'Phone, WhatsApp, email and a contact form for details about the experiences in Verona.',
         eyebrow: 'Contact',
         h1: 'Let’s talk',
       },

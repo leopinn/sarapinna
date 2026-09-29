@@ -1,0 +1,171 @@
+---
+import { esperienze } from '../data/site.js';
+import { linguaDa, testi } from '../i18n/index.js';
+
+const lingua = linguaDa(Astro.url.pathname);
+const t = testi[lingua].esperienze;
+const paginaEsperienze = testi[lingua].nav[1].href;
+
+// Ogni pannello porta alla scheda con il testo completo, nella pagina Esperienze
+const elenco = esperienze.map((e) => ({
+  id: e.id,
+  numero: e.numero,
+  titolo: e.titolo,
+  immagine: e.immagine,
+  href: `${paginaEsperienze}#${e.id}`,
+}));
+---
+
+<section class="section" id="esperienze">
+  <div class="container">
+    <header class="intro" data-reveal>
+      <div>
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h2>{t.titolo}</h2>
+        <p class="intro__testo">{t.intro}</p>
+      </div>
+      <p class="hint">
+        <span class="hint__desktop">{t.indicazioneDesktop}</span>
+        <span class="hint__mobile">{t.indicazioneMobile}</span>
+      </p>
+    </header>
+
+    <div class="accordion" data-reveal>
+      {elenco.map((e, i) => (
+        <a
+          class:list={['pannello', { 'is-aperto': i === 0 }]}
+          style={`transition-delay:${i * 80}ms`}
+          href={e.href}
+          aria-label={`${t.apri}: ${e.titolo}`}
+        >
+          <img src={e.immagine} alt={e.titolo} loading="lazy" />
+          <span class="pannello__velo"></span>
+          <span class="pannello__didascalia">
+            <span class="pannello__numero">{e.numero}</span>
+            <span class="pannello__testo">{e.titolo}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 48px; }
+  .intro > div { max-width: 34em; }
+  .intro h2 { margin-top: 24px; }
+  .intro__testo { margin-top: 24px; line-height: 1.7; }
+  .hint { font-size: 13px; color: var(--fog); }
+  .hint__mobile { display: none; }
+
+  .accordion {
+    display: flex;
+    gap: 8px;
+    height: 460px;
+    transition: opacity 700ms ease, transform 700ms ease;
+  }
+
+  .pannello {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: var(--mist);
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    transition: flex-grow 600ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .pannello:hover { text-decoration: none; }
+  .pannello:hover,
+  .pannello:focus-visible,
+  .pannello.is-aperto { flex-grow: 4; }
+  .pannello:focus-visible { outline: 2px solid var(--vino); outline-offset: 3px; }
+  .accordion:hover .pannello.is-aperto:not(:hover) { flex-grow: 1; }
+
+  .pannello img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    color: transparent; /* niente alt text se la foto manca ancora */
+    transform: scale(1.06);
+    transition: transform 900ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .pannello:hover img,
+  .pannello:focus-visible img,
+  .pannello.is-aperto img { transform: scale(1); }
+
+  .pannello__velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(var(--scrim), 0) 38%, rgba(var(--scrim), .78) 100%);
+  }
+
+  .pannello__didascalia {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    text-align: left;
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 400ms ease, transform 400ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .pannello:hover .pannello__didascalia,
+  .pannello:focus-visible .pannello__didascalia,
+  .pannello.is-aperto .pannello__didascalia { opacity: 1; transform: none; }
+
+  .pannello__numero {
+    font-size: 13px;
+    letter-spacing: .09em;
+    color: var(--champagne);
+  }
+  /* i nomi delle esperienze sono lunghi: vanno a capo invece di uscire dal pannello */
+  .pannello__testo {
+    font-family: var(--font-display);
+    font-size: 30px;
+    line-height: 1.05;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    max-width: 9em;
+  }
+
+  @media (max-width: 900px) {
+    .accordion { height: 380px; }
+    .pannello__testo { font-size: 22px; }
+  }
+
+  /* sotto i 700px l'accordion non ha spazio: riquadri impilati, titolo sempre visibile */
+  @media (max-width: 700px) {
+    .accordion {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      height: auto;
+    }
+    .pannello { height: 300px; }
+    .pannello:hover,
+    .pannello:focus-visible,
+    .pannello.is-aperto { flex-grow: 1; }
+    .pannello img,
+    .pannello:hover img,
+    .pannello:focus-visible img,
+    .pannello.is-aperto img { transform: none; transition: none; }
+    .pannello__didascalia { opacity: 1; transform: none; }
+    .hint__desktop { display: none; }
+    .hint__mobile { display: inline; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pannello,
+    .pannello img,
+    .pannello__didascalia { transition: none; }
+  }
+</style>

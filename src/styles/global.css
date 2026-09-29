@@ -1,16 +1,16 @@
 :root {
-  --ink: #191b1f;
-  --obsidian: #000000;
-  --paper: #ffffff;
-  --mist: #f6f9f9;
-  --fog: #9fabad;
-  --hairline: #e6ebec;
-  --wall-peach: #fcede1;
-  --wall-mint: #eefcef;
-  --wall-lavender: #e6def0;
-  --teal: #186f64;
-  --teal-hover: #12564e;
-  --violet: #536eff;
+  /* Palette: avorio caldo e champagne come fondi, antracite per il testo,
+     bordeaux come unico accento. Il champagne scuro serve solo ai dettagli. */
+  --ink: #23201e; /* antracite: testo corrente */
+  --obsidian: #14110f; /* titoli */
+  --paper: #fbf7f1; /* avorio caldo: fondo del sito */
+  --mist: #f3e9dc; /* champagne: sezioni alternate */
+  --fog: #8a7e70; /* testo secondario */
+  --hairline: #e6d9c6; /* filetti e bordi */
+  --vino: #6e1b2b; /* bordeaux: bottoni, link, accenti */
+  --vino-hover: #551420;
+  --champagne: #c8a87c; /* dettagli dorati */
+  --scrim: 20, 17, 15; /* antracite in rgb, per i veli sulle foto */
   --font-display: 'League Gothic', 'Archivo Narrow', 'Oswald', sans-serif;
   --font-ui: 'Archivo', 'IBM Plex Sans', system-ui, sans-serif;
   --container: 1200px;
@@ -30,8 +30,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--teal); text-decoration: none; }
-a:hover { color: var(--teal-hover); text-decoration: underline; text-underline-offset: 3px; }
+a { color: var(--vino); text-decoration: none; }
+a:hover { color: var(--vino-hover); text-decoration: underline; text-underline-offset: 3px; }
 
 h1, h2, h3 {
   font-family: var(--font-display);
@@ -64,12 +64,12 @@ p { margin: 0; }
   padding: 8px 27px;
   border: none;
   border-radius: 4px;
-  background: var(--teal);
+  background: var(--vino);
   color: var(--paper);
   cursor: pointer;
   transition: background 140ms ease;
 }
-.btn:hover { background: var(--teal-hover); color: var(--paper); text-decoration: none; }
+.btn:hover { background: var(--vino-hover); color: var(--paper); text-decoration: none; }
 .btn--ghost { background: transparent; border: 1px solid rgba(255,255,255,.28); color: var(--paper); }
 .btn--ghost:hover { background: var(--paper); color: var(--ink); }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
@@ -90,7 +90,7 @@ p { margin: 0; }
 }
 .field input:focus, .field textarea:focus { outline: none; border-color: var(--ink); }
 .field textarea { resize: vertical; }
-.req { color: var(--violet); }
+.req { color: var(--champagne); }
 
 /* animazioni */
 [data-reveal],

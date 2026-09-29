@@ -35,14 +35,14 @@ const anno = new Date().getFullYear();
       <div>
         <p class="footer__t">{f.colonnaSito}</p>
         <div class="footer__col">
-          {t.nav.slice(0, 4).map((v) => <a href={v.href}>{v.label}</a>)}
+          {t.nav.map((v) => <a href={v.href}>{v.label}</a>)}
         </div>
       </div>
       <div>
         <p class="footer__t">{f.colonnaPrenota}</p>
         <div class="footer__col">
-          <a href={site.airbnb || t.nav[4].href}>Airbnb</a>
-          <a href={t.nav[4].href}>{f.richiedi}</a>
+          <a href={site.airbnb || t.nav[3].href}>Airbnb</a>
+          <a href={t.nav[3].href}>{f.richiedi}</a>
         </div>
       </div>
       <div>

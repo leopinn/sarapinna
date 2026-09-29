@@ -1,31 +1,30 @@
 ---
 import { linguaDa, testi } from '../i18n/index.js';
 
-interface Props { compatto?: boolean }
-const { compatto = false } = Astro.props;
+/** `senzaOcchiello`: la pagina About ha già il suo titolo in testa. */
+interface Props { senzaOcchiello?: boolean }
+const { senzaOcchiello = false } = Astro.props;
 
-const t = testi[linguaDa(Astro.url.pathname)].chiSono;
+const t = testi[linguaDa(Astro.url.pathname)].about;
 
 // Foto dei blocchi 2 e 3: basta caricarle in public/images con questi nomi.
-const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
+const fotoBlocchi = ['/images/about-2.jpg', '/images/about-3.jpg'];
 ---
 
-<section class="chi-sono" id="chi-sono">
+<section class="about" id="about">
   <!-- 1: testo a sinistra, foto a destra -->
   <div class="blocco">
     <div class="blocco__testo" data-reveal>
-      <p class="eyebrow">{t.eyebrow}</p>
+      {!senzaOcchiello && <p class="eyebrow">{t.eyebrow}</p>}
       <h2>{t.titolo}</h2>
       <p class="lead">{t.lead}</p>
       <p class="testo">{t.testo1}</p>
       <p class="testo">{t.testo2}</p>
-      {!compatto && (
-        <div class="numeri">
-          {t.numeri.map((n) => (
-            <div><p class="numeri__n">{n.n}</p><p class="numeri__l">{n.l}</p></div>
-          ))}
-        </div>
-      )}
+      <div class="numeri">
+        {t.numeri.map((n) => (
+          <div><p class="numeri__n">{n.n}</p><p class="numeri__l">{n.l}</p></div>
+        ))}
+      </div>
     </div>
     <figure class="blocco__foto" data-reveal>
       <img src="/images/sara.jpg" alt={t.ritrattoAlt} loading="lazy" />
@@ -50,22 +49,21 @@ const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
     <span class="perche__filetto" aria-hidden="true"></span>
     <ul class="perche__voci">
       <li data-reveal>
-        <!-- guida locale: persona con segnaposto -->
+        <!-- esperienze ideate: lampadina -->
         <svg viewBox="0 0 48 48" aria-hidden="true">
-          <circle cx="19" cy="15" r="7" />
-          <path d="M6 42c0-8 5.8-13 13-13 3 0 5.7.9 7.8 2.4" />
-          <path d="M36 44s-8-7.4-8-13a8 8 0 0 1 16 0c0 5.6-8 13-8 13z" />
-          <circle cx="36" cy="31" r="2.6" />
+          <path d="M24 5a13 13 0 0 0-7.5 23.6V33a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-4.4A13 13 0 0 0 24 5z" />
+          <path d="M20 39h8M21.5 43h5" />
+          <path d="M24 35V24m0 0-4-4m4 4 4-4" />
         </svg>
         <p>{t.perche.voci[0]}</p>
       </li>
       <li data-reveal>
-        <!-- nessun costo: euro barrato in un cerchio -->
+        <!-- partner locali: due persone -->
         <svg viewBox="0 0 48 48" aria-hidden="true">
-          <circle cx="24" cy="24" r="18" />
-          <path d="M30 16.5a9 9 0 1 0 0 15" />
-          <path d="M14.5 21.5h11M14.5 26.5h11" />
-          <path d="M11 37 37 11" />
+          <circle cx="18" cy="16" r="6.5" />
+          <path d="M5 42c0-7.2 5.8-12 13-12s13 4.8 13 12" />
+          <circle cx="34" cy="19" r="5" />
+          <path d="M33 30c5.8.3 10 4.4 10 11" />
         </svg>
         <p>{t.perche.voci[1]}</p>
       </li>
@@ -84,7 +82,7 @@ const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
 </section>
 
 <style>
-  .chi-sono { margin: 48px 0 96px; }
+  .about { margin: 48px 0 96px; }
 
   /* Due colonne a tutta pagina: la foto arriva a filo del bordo, il testo
      resta allineato al container delle altre sezioni. */
@@ -141,7 +139,7 @@ const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
     width: 48px;
     height: 1px;
     margin: 32px auto 48px;
-    background: var(--teal);
+    background: var(--vino);
     opacity: .5;
   }
   .perche__voci {
@@ -157,7 +155,7 @@ const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
     width: 56px;
     height: 56px;
     fill: none;
-    stroke: var(--teal);
+    stroke: var(--vino);
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -169,18 +167,19 @@ const fotoBlocchi = ['/images/chi-sono-2.jpg', '/images/chi-sono-3.jpg'];
     line-height: 1.4;
   }
 
-  /* sotto i 900px: ogni blocco è testo sopra, foto sotto */
+  /* sotto i 900px: ogni blocco è foto sopra e testo sotto, in colonna */
   @media (max-width: 900px) {
-    .chi-sono { margin: 32px 0 64px; }
-    .blocco { display: block; min-height: 0; }
+    .about { margin: 32px 0 64px; }
+    .blocco { display: flex; flex-direction: column; min-height: 0; }
     .blocco__testo,
     .blocco--inverso .blocco__testo {
+      order: 2;
       width: auto;
       max-width: 34em;
-      padding: 48px 20px 32px;
+      padding: 32px 20px 48px;
     }
     .blocco .blocco__foto,
-    .blocco--inverso .blocco__foto { min-height: 0; margin: 0; }
+    .blocco--inverso .blocco__foto { order: 1; min-height: 0; margin: 0; }
     .blocco__foto img { height: 360px; }
 
     .perche { padding-top: 64px; }

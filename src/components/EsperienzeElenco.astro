@@ -1,0 +1,124 @@
+---
+import { esperienze, site } from '../data/site.js';
+import { linguaDa, testi } from '../i18n/index.js';
+
+const lingua = linguaDa(Astro.url.pathname);
+const t = testi[lingua];
+const e = t.esperienze;
+const elenco = esperienze.map((x) => ({ ...x, ...x[lingua] }));
+---
+
+<!-- fondo chiaro: i Contatti subito sotto sono già champagne -->
+<section class="section" id="elenco-esperienze">
+  <div class="container">
+    <div class="schede">
+      {elenco.map((x) => (
+        <article class="scheda" id={x.id} data-reveal>
+          <figure class="scheda__foto">
+            <img src={x.immagine} alt={x.titolo} loading="lazy" />
+          </figure>
+          <div class="scheda__corpo">
+            <p class="scheda__numero">{x.numero}</p>
+            <h2 class="scheda__titolo">{x.titolo}</h2>
+            <p class="scheda__testo">{x.testo}</p>
+            <ul class="scheda__meta">
+              {x.meta.map((m) => <li>{m}</li>)}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="coda" data-reveal>
+      <p class="coda__nota">{e.nota}</p>
+      <div class="coda__azioni">
+        <a class="btn" href={t.nav[3].href}>{e.cta}</a>
+        {site.airbnb && (
+          <a class="btn btn--linea" href={site.airbnb} target="_blank" rel="noopener">{e.prenotaAirbnb}</a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .schede {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 64px 48px;
+  }
+  /* la prima scheda occupa tutta la riga: è l'esperienza di punta */
+  .scheda:first-child {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .scheda:first-child .scheda__foto { margin: 0; aspect-ratio: 4 / 3; }
+  .scheda:first-child .scheda__titolo { font-size: 45px; letter-spacing: 2.25px; }
+
+  .scheda { scroll-margin-top: 120px; }
+  .scheda__foto {
+    margin: 0 0 24px;
+    aspect-ratio: 3 / 2;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--hairline); /* segnaposto finché la foto non c'è */
+  }
+  .scheda__foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    color: transparent;
+  }
+  .scheda__numero { font-size: 13px; letter-spacing: .09em; color: var(--champagne); }
+  .scheda__titolo { font-size: 30px; line-height: 1.05; letter-spacing: 1.5px; margin-top: 8px; }
+  .scheda__testo { margin-top: 16px; line-height: 1.7; max-width: 34em; }
+
+  .scheda__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+  }
+  .scheda__meta li {
+    font-size: 13px;
+    color: var(--fog);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+
+  .coda {
+    margin-top: 96px;
+    padding-top: 48px;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .coda__nota { font-size: 13px; color: var(--fog); max-width: 34em; line-height: 1.7; }
+  .coda__azioni { display: flex; flex-wrap: wrap; gap: 16px; }
+
+  /* bottone secondario su fondo chiaro: solo filetto bordeaux */
+  .btn--linea {
+    background: transparent;
+    border: 1px solid var(--vino);
+    color: var(--vino);
+  }
+  .btn--linea:hover { background: var(--vino); color: var(--paper); }
+
+  @media (max-width: 900px) {
+    .schede { grid-template-columns: 1fr; gap: 48px; }
+    .scheda:first-child { display: block; }
+    .scheda:first-child .scheda__foto { aspect-ratio: 3 / 2; }
+    .scheda:first-child .scheda__titolo { font-size: 30px; letter-spacing: 1.5px; }
+    .coda { margin-top: 64px; }
+  }
+</style>

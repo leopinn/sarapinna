@@ -12,8 +12,8 @@ const t = testi[lingua];
     <h1 data-reveal-hero>{t.hero.titolo}</h1>
     <p class="hero__testo" data-reveal-hero>{t.hero.testo}</p>
     <div class="hero__azioni" data-reveal-hero>
-      <a class="btn btn--ghost" href={t.nav[1].href}>{t.hero.conoscimi}</a>
-      <a class="btn" href={t.nav[2].href}>{t.hero.prenota}</a>
+      <a class="btn" href={t.nav[1].href}>{t.hero.esplora}</a>
+      <a class="btn btn--ghost" href={t.nav[3].href}>{t.hero.contatta}</a>
     </div>
     <div class="hero__cue"><span></span> {t.hero.scorri}</div>
   </div>
@@ -32,7 +32,7 @@ const t = testi[lingua];
   .hero__scrim {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(25,27,31,.62) 0%, rgba(25,27,31,.35) 42%, rgba(25,27,31,.82) 100%);
+    background: linear-gradient(180deg, rgba(var(--scrim), .58) 0%, rgba(var(--scrim), .3) 42%, rgba(var(--scrim), .8) 100%);
   }
   .hero__content {
     position: relative;

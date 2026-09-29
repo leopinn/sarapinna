@@ -1,9 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Hero from '../../components/Hero.astro';
-import ChiSono from '../../components/ChiSono.astro';
-import Servizi from '../../components/Servizi.astro';
-import Galleria from '../../components/Galleria.astro';
+import About from '../../components/About.astro';
+import Esperienze from '../../components/Esperienze.astro';
 import Contatti from '../../components/Contatti.astro';
 import { linguaDa, testi } from '../../i18n/index.js';
 
@@ -12,8 +11,7 @@ const p = testi[linguaDa(Astro.url.pathname)].pagine.home;
 
 <Base titolo={p.titolo} descrizione={p.descrizione} navTrasparente={true}>
   <Hero />
-  <ChiSono />
-  <Servizi />
-  <Galleria />
+  <Esperienze />
+  <About />
   <Contatti />
 </Base>

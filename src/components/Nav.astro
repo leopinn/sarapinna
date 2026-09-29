@@ -27,7 +27,7 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
       <a class="nav__lingua" href={altraPagina} title={t.cambioLingua} aria-label={t.cambioLingua}>
         <img src={t.bandiera} alt={t.bandieraAlt} width="24" height="24" />
       </a>
-      <a class="btn" href={t.nav[4].href}>{t.prenotaOra}</a>
+      <a class="btn" href={t.nav[3].href}>{t.prenotaOra}</a>
     </div>
   </div>
 </nav>
@@ -58,7 +58,7 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
   }
   .nav__mark :global(.logo) { height: 100%; }
   .nav__mark:hover { text-decoration: none; }
-  .nav__mark:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; }
+  .nav__mark:focus-visible { outline: 2px solid var(--vino); outline-offset: 4px; }
   .nav__links { display: flex; align-items: center; gap: 6px; }
   .nav__link {
     position: relative;
@@ -76,7 +76,7 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
     right: 14px;
     bottom: 2px;
     height: 2px;
-    background: var(--teal);
+    background: var(--vino);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -103,7 +103,7 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
   }
   .nav__lingua img { display: block; width: 24px; height: 24px; object-fit: contain; }
   .nav__lingua:hover { transform: scale(1.12); text-decoration: none; }
-  .nav__lingua:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .nav__lingua:focus-visible { outline: 2px solid var(--vino); outline-offset: 2px; }
   .nav__lingua:active { transform: scale(.94); }
 
   /* stato sopra l'hero: barra trasparente su video scuro */
