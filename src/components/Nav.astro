@@ -46,18 +46,18 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding-top: 18px;
-    padding-bottom: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .nav__mark {
     display: block;
-    height: 40px;
-    color: var(--ink);
+    height: 56px;
+    color: var(--vino);
     text-decoration: none;
     transition: color 240ms ease;
   }
   .nav__mark :global(.logo) { height: 100%; }
-  .nav__mark:hover { text-decoration: none; }
+  .nav__mark:hover { color: var(--vino-hover); text-decoration: none; }
   .nav__mark:focus-visible { outline: 2px solid var(--vino); outline-offset: 4px; }
   .nav__links { display: flex; align-items: center; gap: 6px; }
   .nav__link {
@@ -111,13 +111,20 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
     background: transparent;
     border-bottom-color: rgba(255,255,255,.28);
   }
-  .nav--over:not(.is-scrolled) .nav__mark { color: #fff; --sp-wine: #fff; }
+  .nav--over:not(.is-scrolled) .nav__mark { color: #fff; }
   .nav--over:not(.is-scrolled) .nav__mark:focus-visible { outline-color: #fff; }
   .nav--over:not(.is-scrolled) .nav__link { color: rgba(255,255,255,.72); }
   .nav--over:not(.is-scrolled) .nav__lingua:focus-visible { outline-color: #fff; }
 
   @media (max-width: 760px) {
     .nav__links { display: none; }
+    .nav__inner { padding-top: 14px; padding-bottom: 14px; }
+    .nav__mark { height: 48px; }
+  }
+  /* telefoni stretti: il logo orizzontale e i due pulsanti devono stare su una riga */
+  @media (max-width: 380px) {
+    .nav__inner { gap: 16px; padding-top: 16px; padding-bottom: 16px; }
+    .nav__mark { height: 44px; }
   }
 </style>
 

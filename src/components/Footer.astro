@@ -13,7 +13,7 @@ const anno = new Date().getFullYear();
   <div class="container">
     <div class="footer__griglia">
       <div>
-        <p class="footer__mark" role="img" aria-label={site.nome}><Logo /></p>
+        <p class="footer__mark" role="img" aria-label={site.nome}><Logo variante="verticale" /></p>
         <p class="footer__testo">{f.testo}</p>
         <div class="footer__social">
           <a class="footer__icona" href={site.instagram} target="_blank" rel="noopener" aria-label={f.instagram}>
@@ -63,8 +63,9 @@ const anno = new Date().getFullYear();
 <style>
   .footer { background: var(--ink); color: var(--paper); padding: 72px 0 32px; }
   .footer__griglia { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 48px; }
-  .footer__mark { height: 48px; margin: 0 0 16px; color: var(--paper); --sp-wine: var(--paper); }
-  .footer__mark :global(.logo) { height: 100%; }
+  .footer__mark { --alto: 110px; height: var(--alto); margin: 0 0 24px; color: var(--paper); }
+  /* l'SVG verticale ha 40 unità di margine ai lati su 715: la scritta si allinea al testo sotto */
+  .footer__mark :global(.logo) { height: 100%; margin-left: calc(var(--alto) * -40 / 715.41); }
   .footer__testo { color: rgba(255,255,255,.66); margin-bottom: 24px; max-width: 26em; }
   .footer__t { font-size: 13px; font-weight: 500; margin-bottom: 24px; }
   .footer__col { display: flex; flex-direction: column; gap: 16px; }
@@ -86,6 +87,9 @@ const anno = new Date().getFullYear();
   .footer__icona:hover { color: #fff; background: rgba(255,255,255,.1); }
   .footer__icona:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .footer__icona:active { background: rgba(255,255,255,.18); }
+  @media (max-width: 760px) {
+    .footer__mark { --alto: 96px; }
+  }
   .footer__base {
     border-top: 1px solid rgba(255,255,255,.28);
     margin-top: 64px;

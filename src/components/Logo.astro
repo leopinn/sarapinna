@@ -1,22 +1,23 @@
 ---
-// Il logo è inserito inline: le lettere usano currentColor (seguono il colore
-// del testo del contenitore) e l'accento usa --sp-wine, che si può ridefinire.
-import sorgente from '../../public/images/sara-pinna-logo.svg?raw';
+// Il logo è inserito inline: usa currentColor, quindi segue il colore del testo
+// del contenitore (bordeaux sui fondi chiari, bianco sul video, avorio nel footer).
+import orizzontale from '../../public/images/logo-orizzontale.svg?raw';
+import verticale from '../../public/images/logo-verticale.svg?raw';
+import monogramma from '../../public/images/monogramma.svg?raw';
 
-interface Props { class?: string }
-const { class: classe } = Astro.props;
+interface Props {
+  variante?: 'orizzontale' | 'verticale' | 'monogramma';
+  class?: string;
+}
+const { variante = 'orizzontale', class: classe } = Astro.props;
 
-// Ogni istanza ha id propri per i clipPath: header e footer stanno nella stessa pagina
-const suffisso = Math.random().toString(36).slice(2, 8);
-const svg = sorgente
-  .replace(/<metadata>[\s\S]*?<\/metadata>/, '')
+const sorgenti = { orizzontale, verticale, monogramma };
+const svg = sorgenti[variante]
   .replace(/<title>[\s\S]*?<\/title>/, '')
-  .replace(/\s*xmlns:c2pa="[^"]*"/, '')
-  .replace(/\s*role="img"\s*aria-label="[^"]*"/, ' aria-hidden="true" focusable="false"')
-  .replace(/sp-c([lr])/g, `sp-c$1-${suffisso}`);
+  .replace(/\s*role="img"\s*aria-label="[^"]*"/, ' aria-hidden="true" focusable="false"');
 ---
 
-<span class:list={['logo', classe]} set:html={svg} />
+<span class:list={['logo', `logo--${variante}`, classe]} set:html={svg} />
 
 <style>
   .logo { display: inline-block; line-height: 0; }
