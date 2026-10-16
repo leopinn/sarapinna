@@ -31,6 +31,22 @@ if (ridotto) {
     });
   }
 
+  // About: stessa parallasse sulla foto a tutto schermo
+  const fotoAbout = document.querySelector('.about-hero__foto');
+  if (fotoAbout) {
+    gsap.to(fotoAbout, {
+      yPercent: 12,
+      scale: 1.1,
+      ease: 'none',
+      scrollTrigger: { trigger: '.about-hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+    gsap.fromTo('.about-hero__scrim', { opacity: 1 }, {
+      opacity: 0.6,
+      ease: 'none',
+      scrollTrigger: { trigger: '.about-hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+  }
+
   // Sezioni: rivelazione a gruppi
   ScrollTrigger.batch('[data-reveal]', {
     start: 'top 88%',

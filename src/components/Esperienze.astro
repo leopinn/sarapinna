@@ -17,7 +17,7 @@ const elenco = esperienze.map((e) => ({
 ---
 
 <section class="section" id="esperienze">
-  <div class="container">
+  <div class="container container--largo">
     <header class="intro" data-reveal>
       <div>
         <p class="eyebrow">{t.eyebrow}</p>
@@ -31,10 +31,9 @@ const elenco = esperienze.map((e) => ({
     </header>
 
     <div class="accordion" data-reveal>
-      {elenco.map((e, i) => (
+      {elenco.map((e) => (
         <a
-          class:list={['pannello', { 'is-aperto': i === 0 }]}
-          style={`transition-delay:${i * 80}ms`}
+          class="pannello"
           href={e.href}
           aria-label={`${t.apri}: ${e.titolo}`}
         >
@@ -58,10 +57,11 @@ const elenco = esperienze.map((e) => ({
   .hint { font-size: 13px; color: var(--fog); }
   .hint__mobile { display: none; }
 
+  /* rettangoli alti e larghi, tutti uguali finché non ci passi sopra */
   .accordion {
     display: flex;
-    gap: 8px;
-    height: 460px;
+    gap: 24px;
+    height: 600px;
     transition: opacity 700ms ease, transform 700ms ease;
   }
 
@@ -79,11 +79,10 @@ const elenco = esperienze.map((e) => ({
     transition: flex-grow 600ms cubic-bezier(.22, 1, .36, 1);
   }
   .pannello:hover { text-decoration: none; }
+  /* si allarga il doppio: gli altri restano rettangoli, non strisce */
   .pannello:hover,
-  .pannello:focus-visible,
-  .pannello.is-aperto { flex-grow: 4; }
+  .pannello:focus-visible { flex-grow: 2; }
   .pannello:focus-visible { outline: 2px solid var(--vino); outline-offset: 3px; }
-  .accordion:hover .pannello.is-aperto:not(:hover) { flex-grow: 1; }
 
   .pannello img {
     width: 100%;
@@ -95,8 +94,7 @@ const elenco = esperienze.map((e) => ({
     transition: transform 900ms cubic-bezier(.22, 1, .36, 1);
   }
   .pannello:hover img,
-  .pannello:focus-visible img,
-  .pannello.is-aperto img { transform: scale(1); }
+  .pannello:focus-visible img { transform: scale(1); }
 
   .pannello__velo {
     position: absolute;
@@ -119,8 +117,7 @@ const elenco = esperienze.map((e) => ({
     transition: opacity 400ms ease, transform 400ms cubic-bezier(.22, 1, .36, 1);
   }
   .pannello:hover .pannello__didascalia,
-  .pannello:focus-visible .pannello__didascalia,
-  .pannello.is-aperto .pannello__didascalia { opacity: 1; transform: none; }
+  .pannello:focus-visible .pannello__didascalia { opacity: 1; transform: none; }
 
   .pannello__numero {
     font-size: 13px;
@@ -138,7 +135,7 @@ const elenco = esperienze.map((e) => ({
   }
 
   @media (max-width: 900px) {
-    .accordion { height: 380px; }
+    .accordion { height: 440px; gap: 12px; }
     .pannello__testo { font-size: 22px; }
   }
 
@@ -152,12 +149,10 @@ const elenco = esperienze.map((e) => ({
     }
     .pannello { height: 300px; }
     .pannello:hover,
-    .pannello:focus-visible,
-    .pannello.is-aperto { flex-grow: 1; }
+    .pannello:focus-visible { flex-grow: 1; }
     .pannello img,
     .pannello:hover img,
-    .pannello:focus-visible img,
-    .pannello.is-aperto img { transform: none; transition: none; }
+    .pannello:focus-visible img { transform: none; transition: none; }
     .pannello__didascalia { opacity: 1; transform: none; }
     .hint__desktop { display: none; }
     .hint__mobile { display: inline; }

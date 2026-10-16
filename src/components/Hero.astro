@@ -11,10 +11,6 @@ const t = testi[lingua];
   <div class="hero__content container">
     <h1 data-reveal-hero>{t.hero.titolo}</h1>
     <p class="hero__testo" data-reveal-hero>{t.hero.testo}</p>
-    <div class="hero__azioni" data-reveal-hero>
-      <a class="btn" href={t.nav[1].href}>{t.hero.esplora}</a>
-      <a class="btn btn--ghost" href={t.nav[3].href}>{t.hero.contatta}</a>
-    </div>
     <div class="hero__cue"><span></span> {t.hero.scorri}</div>
   </div>
 </section>
@@ -47,9 +43,9 @@ const t = testi[lingua];
   }
   .hero__eyebrow { color: rgba(255,255,255,.72); margin-bottom: 24px; }
   /* dimensione, tracking e uppercase arrivano da global.css (scala League Gothic) */
-  .hero h1 { color: #fff; max-width: 10em; }
-  .hero__testo { color: rgba(255,255,255,.7); margin-top: 24px; max-width: 34em; }
-  .hero__azioni { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 36px; }
+  /* il titolo è una domanda lunga: più largo e più grande, per stare su due righe */
+  .hero h1 { color: #fff; max-width: 15em; font-size: clamp(50px, 5.6vw, 80px); }
+  .hero__testo { color: rgba(255,255,255,.7); margin-top: 24px; max-width: 34em; font-size: 18px; }
   .hero__cue {
     position: absolute;
     left: 50%;
@@ -71,6 +67,7 @@ const t = testi[lingua];
   }
 
   @media (max-width: 900px) {
-    .hero h1 { max-width: 9em; }
+    .hero h1 { max-width: 10em; font-size: 45px; }
+    .hero__testo { font-size: 16px; }
   }
 </style>

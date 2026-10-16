@@ -1,5 +1,5 @@
 ---
-import { esperienze, site } from '../data/site.js';
+import { esperienze } from '../data/site.js';
 import { linguaDa, testi } from '../i18n/index.js';
 
 const lingua = linguaDa(Astro.url.pathname);
@@ -10,7 +10,7 @@ const elenco = esperienze.map((x) => ({ ...x, ...x[lingua] }));
 
 <!-- fondo chiaro: i Contatti subito sotto sono già champagne -->
 <section class="section" id="elenco-esperienze">
-  <div class="container">
+  <div class="container container--largo">
     <div class="schede">
       {elenco.map((x) => (
         <article class="scheda" id={x.id} data-reveal>
@@ -29,39 +29,36 @@ const elenco = esperienze.map((x) => ({ ...x, ...x[lingua] }));
       ))}
     </div>
 
-    <div class="coda" data-reveal>
-      <p class="coda__nota">{e.nota}</p>
-      <div class="coda__azioni">
-        <a class="btn" href={t.nav[3].href}>{e.cta}</a>
-        {site.airbnb && (
-          <a class="btn btn--linea" href={site.airbnb} target="_blank" rel="noopener">{e.prenotaAirbnb}</a>
-        )}
+    <!-- esperienza su misura: per chi cerca qualcosa che non è in elenco -->
+    <div class="desiderio">
+      <h2 data-reveal>{e.desiderio.titolo}</h2>
+      <span class="desiderio__filetto" aria-hidden="true"></span>
+      <p class="desiderio__testo" data-reveal>{e.desiderio.testo}</p>
+      <div data-reveal>
+        <a class="btn desiderio__cta" href="#form-contatti">{e.desiderio.cta}</a>
       </div>
     </div>
   </div>
 </section>
 
 <style>
+  /* tutte le schede uguali, nessuna in evidenza */
   .schede {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 64px 48px;
+    gap: 72px 48px;
   }
-  /* la prima scheda occupa tutta la riga: è l'esperienza di punta */
-  .scheda:first-child {
+  /* se l'ultima resta sola sulla riga, la centro con la stessa larghezza */
+  .scheda:last-child:nth-child(odd) {
     grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    align-items: center;
+    justify-self: center;
+    width: calc((100% - 48px) / 2);
   }
-  .scheda:first-child .scheda__foto { margin: 0; aspect-ratio: 4 / 3; }
-  .scheda:first-child .scheda__titolo { font-size: 45px; letter-spacing: 2.25px; }
 
   .scheda { scroll-margin-top: 120px; }
   .scheda__foto {
     margin: 0 0 24px;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 4 / 3;
     border-radius: 4px;
     overflow: hidden;
     background: var(--hairline); /* segnaposto finché la foto non c'è */
@@ -93,32 +90,33 @@ const elenco = esperienze.map((x) => ({ ...x, ...x[lingua] }));
     padding: 6px 14px;
   }
 
-  .coda {
+  /* il filetto in alto separa il blocco dalle schede */
+  .desiderio {
     margin-top: 96px;
-    padding-top: 48px;
+    padding-top: 96px;
     border-top: 1px solid var(--hairline);
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 32px;
+    text-align: center;
   }
-  .coda__nota { font-size: 13px; color: var(--fog); max-width: 34em; line-height: 1.7; }
-  .coda__azioni { display: flex; flex-wrap: wrap; gap: 16px; }
-
-  /* bottone secondario su fondo chiaro: solo filetto bordeaux */
-  .btn--linea {
-    background: transparent;
-    border: 1px solid var(--vino);
-    color: var(--vino);
+  .desiderio__filetto {
+    display: block;
+    width: 48px;
+    height: 1px;
+    margin: 32px auto;
+    background: var(--vino);
+    opacity: .5;
   }
-  .btn--linea:hover { background: var(--vino); color: var(--paper); }
+  .desiderio__testo { max-width: 36em; line-height: 1.7; }
+  .desiderio__cta { margin-top: 40px; }
+  .desiderio__cta:focus-visible { outline: 2px solid var(--vino); outline-offset: 3px; }
 
   @media (max-width: 900px) {
     .schede { grid-template-columns: 1fr; gap: 48px; }
-    .scheda:first-child { display: block; }
-    .scheda:first-child .scheda__foto { aspect-ratio: 3 / 2; }
-    .scheda:first-child .scheda__titolo { font-size: 30px; letter-spacing: 1.5px; }
-    .coda { margin-top: 64px; }
+    .scheda:last-child:nth-child(odd) { width: auto; justify-self: stretch; }
+    /* su mobile resta orizzontale, appena più bassa di prima (era 3/2) */
+    .scheda__foto { aspect-ratio: 16 / 10; }
+    .desiderio { margin-top: 64px; padding-top: 64px; }
   }
 </style>

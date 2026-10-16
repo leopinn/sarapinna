@@ -1,0 +1,58 @@
+---
+import { linguaDa, testi } from '../i18n/index.js';
+
+const t = testi[linguaDa(Astro.url.pathname)].intro;
+---
+
+<!-- Descrizione principale: che cos'è un'experience, subito sotto l'hero -->
+<!-- fondo champagne: stacco tra il video e le Esperienze su avorio -->
+<section class="section section--soft intro" id="intro">
+  <div class="container intro__corpo">
+    <h2 data-reveal>{t.titolo}</h2>
+    <span class="intro__filetto" aria-hidden="true"></span>
+    <div class="intro__testo" data-reveal>
+      {t.paragrafi.map((p) => <p>{p}</p>)}
+    </div>
+    <p class="intro__chiusura" data-reveal>{t.chiusura}</p>
+    <div data-reveal>
+      <!-- il form sta nella sezione Contatti, in fondo alla stessa pagina -->
+      <a class="btn intro__cta" href="#form-contatti">{t.cta}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro { padding: 128px 0; }
+  .intro__corpo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .intro h2 { max-width: 16em; }
+  .intro__filetto {
+    display: block;
+    width: 48px;
+    height: 1px;
+    margin: 32px auto;
+    background: var(--vino);
+    opacity: .5;
+  }
+  .intro__testo { max-width: 38em; }
+  .intro__testo p { line-height: 1.7; }
+  .intro__testo p + p { margin-top: 16px; }
+  .intro__chiusura {
+    max-width: 30em;
+    margin-top: 32px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  .intro__cta { margin-top: 40px; text-transform: uppercase; letter-spacing: .09em; }
+  .intro__cta:focus-visible { outline: 2px solid var(--vino); outline-offset: 3px; }
+
+  @media (max-width: 900px) {
+    .intro { padding: 80px 0; }
+    .intro__chiusura { font-size: 18px; }
+  }
+</style>

@@ -60,49 +60,51 @@ export const testi = {
 
     hero: {
       claim: 'Experience creator · Verona e territorio',
-      titolo: 'Vivi Verona diversamente',
-      testo:
-        'Esperienze locali curate, create insieme a chi questo territorio lo conosce davvero.',
-      esplora: 'Scopri le esperienze',
-      contatta: 'Parliamone',
-      scorri: 'Scorri',
+      titolo: 'Ti ricordi l’ultima volta che ti sei lasciato sorprendere?',
+      testo: 'Lasciati guidare. C’è un’experience che aspetta il tuo sì.',
+      scorri: 'Scopri',
+    },
+
+    // Descrizione principale, subito sotto l'hero della Home
+    intro: {
+      titolo: 'Ogni experience nasce da un’emozione',
+      paragrafi: [
+        'Un’experience è un modo di vivere un luogo attraverso ciò che fai e le persone che incontri: il suo valore è nelle emozioni e nelle sensazioni che provi, nei ricordi che porti con te.',
+        'La curiosità di una prima volta. Il piacere di perdere la nozione del tempo. La felicità di essere esattamente dove vuoi essere, con la voglia di restare ancora un po’.',
+        'È da qui che nascono le mie experience: dal desiderio di farti vivere qualcosa che abbia un significato per te. Scelgo persone, luoghi e incontri capaci di coinvolgerti, perché tu possa lasciarti andare e scoprire anche ciò che non avevi immaginato.',
+      ],
+      chiusura: 'C’è qualcosa che hai sempre desiderato vivere? Partiamo da lì.',
+      cta: 'Get in touch',
     },
 
     about: {
-      eyebrow: 'About',
-      titolo: 'Creo esperienze, non rivendo tour',
-      lead:
-        'Ideo e organizzo esperienze sul territorio di Verona: metto insieme attività, luoghi e partner locali e li trasformo in giornate complete da vivere.',
-      testo1:
-        'Il progetto nasce per portare a Verona e nei dintorni esperienze curate davvero. Non sono sempre io a svolgere ogni attività: il mio lavoro è ideare il format, trovare i partner giusti, mettere insieme i vari elementi e coordinare l’esperienza dall’inizio alla fine.',
-      testo2:
-        'Collaboro con cantine, ristoranti, chef, guide, maneggi, strutture ricettive e servizi particolari come le auto d’epoca. Ognuno fa quello che sa fare meglio; io tengo insieme i pezzi e rispondo di come va la giornata.',
-      numeri: [
-        { n: '5', l: 'Esperienze in preparazione' },
-        { n: '100%', l: 'Partner del territorio' },
-        { n: '1', l: 'Persona che coordina tutto: io' },
+      nome: 'Sara Pinna',
+      ruolo: 'Experience Creator',
+      fotoAlt: 'Sara Pinna davanti a un tramonto in montagna',
+      titolo: 'La curiosità mi somiglia.',
+      paragrafi: [
+        'Mi piace viaggiare, stare all’aperto, scoprire un posto attraverso le persone che lo vivono. Amo il mondo del vino: mi ha insegnato quanto ci sia da conoscere dietro ciò che, a prima vista, sembra semplice.',
+        'Ho scelto di creare experience perché mi appassiona immaginare le possibilità di un luogo: incontrare qualcuno, ascoltare la sua storia e pensare «qui potrebbe nascere qualcosa di speciale». Poi dare forma a quell’idea, mettendo insieme persone e dettagli.',
+        'In questo lavoro ritrovo ciò che mi piace di più: la scoperta, la creatività e il contatto con gli altri. Il mio desiderio è condividere quella curiosità e farti venire voglia di vivere qualcosa che, da solo, forse non avresti pensato di cercare.',
       ],
-      ritrattoAlt: 'Sara Pinna',
-      blocchi: [
-        {
-          titolo: 'Non il solito tour turistico',
-          fotoAlt: 'Un momento di un’esperienza a Verona',
-          paragrafi: [
-            'Verona è piena di giri organizzati che si assomigliano tutti: stessi orari, stesse tappe, stesse fotografie. Io sono partita dall’idea opposta, e cioè da quello che mi piacerebbe vivere se arrivassi qui per la prima volta.',
-            'Da qui nascono esperienze più autentiche e più belle da vivere: gruppi piccoli, luoghi veri, persone del posto che raccontano il proprio mestiere. E curate anche nell’immagine, perché il modo in cui un’esperienza si presenta fa parte dell’esperienza.',
-            'Il risultato non è un elenco di monumenti visti di corsa, ma una giornata che ti resta addosso.',
-          ],
-        },
-        {
-          titolo: 'Come nasce un’esperienza',
-          fotoAlt: 'Sara al lavoro sull’organizzazione di un’esperienza',
-          paragrafi: [
-            'Prima viene l’idea: che cosa voglio far provare, in che luogo, con che ritmo. Poi cerco i partner giusti — una cantina, uno chef, una guida, un maneggio, un’auto d’epoca — e li incontro di persona, perché l’esperienza vale quanto vale chi la porta avanti.',
-            'A quel punto metto insieme i pezzi: tempi, spostamenti, soste, materiali. Provo il percorso, aggiusto quello che non funziona e solo alla fine lo apro alle prenotazioni.',
-            'Le prenotazioni passano soprattutto da Airbnb Experiences, ma se vuoi qualcosa di costruito su misura — una data particolare, un gruppo, un’occasione — scrivimi e ne parliamo.',
-          ],
-        },
-      ],
+      metodo: {
+        titolo: 'Il mio modo di creare experience',
+        voci: [
+          {
+            titolo: 'Un’idea che prende vita',
+            testo: 'Creo ogni experience insieme a chi può renderla speciale, curando ciò che vivrai dall’inizio alla fine.',
+          },
+          {
+            titolo: 'Le persone fanno la differenza',
+            testo: 'Scelgo partner che amano ciò che fanno e sanno trasmetterti quella passione.',
+          },
+          {
+            titolo: 'Spazio ai tuoi desideri',
+            testo: 'Puoi lasciarti ispirare dalle mie proposte o partire da un’idea tutta tua.',
+          },
+        ],
+      },
+      cta: 'Disegno la tua',
       perche: {
         titolo: 'Perché scegliermi?',
         voci: [
@@ -125,6 +127,12 @@ export const testi = {
       prenotaAirbnb: 'Prenota su Airbnb',
       nota:
         'I nomi sono provvisori e il calendario è in costruzione: scrivimi per sapere quando parte l’esperienza che ti interessa.',
+      desiderio: {
+        titolo: 'Hai un desiderio speciale?',
+        testo:
+          'Forse quello che sogni non è in questo elenco: un luogo che hai in mente da tempo, un’occasione da festeggiare, un’idea tutta tua. Scrivimi e raccontamela: ne parliamo insieme e costruisco un’esperienza su misura, pensata intorno a te.',
+        cta: 'Raccontami la tua idea',
+      },
     },
 
     contatti: {
@@ -189,8 +197,6 @@ export const testi = {
         titolo: 'About — Sara Pinna',
         descrizione:
           'Ideo e coordino esperienze a Verona e nel territorio, mettendo insieme attività, luoghi e partner locali.',
-        eyebrow: 'About',
-        h1: 'Chi c’è dietro le esperienze',
       },
       contatti: {
         titolo: 'Contatti — Sara Pinna',
@@ -219,49 +225,50 @@ export const testi = {
 
     hero: {
       claim: 'Experience creator · Verona and around',
-      titolo: 'Experience Verona differently',
-      testo:
-        'Curated local experiences, created with the people who know this land best.',
-      esplora: 'See the experiences',
-      contatta: 'Let’s talk',
-      scorri: 'Scroll',
+      titolo: 'Do you remember the last time you let yourself be surprised?',
+      testo: 'Let yourself be guided. There’s an experience waiting for your yes.',
+      scorri: 'Discover',
+    },
+
+    intro: {
+      titolo: 'Every experience begins with a feeling',
+      paragrafi: [
+        'An experience is a way of living a place through what you do and the people you meet: its value lies in the emotions and sensations you feel, in the memories you take home with you.',
+        'The curiosity of a first time. The pleasure of losing track of time. The joy of being exactly where you want to be, wishing you could stay a little longer.',
+        'That is where my experiences come from: the wish to let you live something that means something to you. I choose people, places and encounters that can draw you in, so you can let go and discover even what you had not imagined.',
+      ],
+      chiusura: 'Is there something you have always wanted to live? Let’s start there.',
+      cta: 'Get in touch',
     },
 
     about: {
-      eyebrow: 'About',
-      titolo: 'I create experiences, I don’t resell tours',
-      lead:
-        'I design and organise experiences around Verona: I bring together activities, places and local partners and turn them into complete days worth living.',
-      testo1:
-        'The project started to bring genuinely curated experiences to Verona and the area around it. I am not always the one running every activity: my job is to design the format, find the right partners, put the pieces together and coordinate the experience from start to finish.',
-      testo2:
-        'I work with wineries, restaurants, chefs, guides, riding stables, places to stay and unusual services such as classic cars. Each of them does what they do best; I hold it all together and answer for how the day goes.',
-      numeri: [
-        { n: '5', l: 'Experiences in the making' },
-        { n: '100%', l: 'Local partners' },
-        { n: '1', l: 'Person coordinating it all: me' },
+      nome: 'Sara Pinna',
+      ruolo: 'Experience Creator',
+      fotoAlt: 'Sara Pinna watching a mountain sunset',
+      titolo: 'Curiosity is who I am.',
+      paragrafi: [
+        'I love travelling, being outdoors, discovering a place through the people who live there. I love the world of wine: it taught me how much there is to know behind what, at first sight, looks simple.',
+        'I chose to create experiences because I love imagining what a place could become: meeting someone, listening to their story and thinking “something special could happen here”. Then giving that idea a shape, bringing people and details together.',
+        'In this work I find what I love most: discovery, creativity and being with people. My wish is to share that curiosity and make you want to live something you might never have thought of looking for on your own.',
       ],
-      ritrattoAlt: 'Sara Pinna',
-      blocchi: [
-        {
-          titolo: 'Not the usual tourist tour',
-          fotoAlt: 'A moment from an experience in Verona',
-          paragrafi: [
-            'Verona is full of organised tours that all look alike: same timings, same stops, same photographs. I started from the opposite idea — from what I would want to live if I arrived here for the first time.',
-            'That is where these experiences come from: small groups, real places, local people talking about their own craft. And looked after down to the way they are presented, because how an experience looks is part of the experience.',
-            'The result is not a list of monuments seen in a hurry, but a day that stays with you.',
-          ],
-        },
-        {
-          titolo: 'How an experience comes together',
-          fotoAlt: 'Sara working on the planning of an experience',
-          paragrafi: [
-            'First comes the idea: what I want people to feel, in which place, at what pace. Then I look for the right partners — a winery, a chef, a guide, a riding stable, a classic car — and I meet them in person, because an experience is only as good as the people running it.',
-            'Then I put the pieces together: timings, transfers, stops, materials. I try the route myself, fix what does not work, and only then open it to bookings.',
-            'Bookings mostly go through Airbnb Experiences, but if you want something built around you — a particular date, a group, a special occasion — write to me and we will talk it through.',
-          ],
-        },
-      ],
+      metodo: {
+        titolo: 'How I create experiences',
+        voci: [
+          {
+            titolo: 'An idea that comes to life',
+            testo: 'I create every experience together with those who can make it special, looking after everything you will live from start to finish.',
+          },
+          {
+            titolo: 'People make the difference',
+            testo: 'I choose partners who love what they do and know how to pass that passion on to you.',
+          },
+          {
+            titolo: 'Room for your wishes',
+            testo: 'You can draw inspiration from my ideas or start from one entirely your own.',
+          },
+        ],
+      },
+      cta: 'Design yours',
       perche: {
         titolo: 'Why choose me?',
         voci: [
@@ -284,6 +291,12 @@ export const testi = {
       prenotaAirbnb: 'Book on Airbnb',
       nota:
         'Names are provisional and the calendar is still being built: write to me to find out when the experience you like starts.',
+      desiderio: {
+        titolo: 'Have a special wish?',
+        testo:
+          'Maybe what you’re dreaming of isn’t on this list: a place you’ve long had in mind, an occasion to celebrate, an idea all your own. Write to me and tell me about it: we’ll talk it through and I’ll build a tailor-made experience around you.',
+        cta: 'Tell me your idea',
+      },
     },
 
     contatti: {
@@ -348,8 +361,6 @@ export const testi = {
         titolo: 'About — Sara Pinna',
         descrizione:
           'I design and coordinate experiences in Verona and the land around it, bringing together activities, places and local partners.',
-        eyebrow: 'About',
-        h1: 'The person behind the experiences',
       },
       contatti: {
         titolo: 'Contact — Sara Pinna',

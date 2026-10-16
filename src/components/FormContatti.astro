@@ -54,7 +54,8 @@ const t = testi[lingua].form;
 </form>
 
 <style>
-  .form { background: var(--paper); border: 1px solid var(--hairline); padding: 32px; min-width: 0; }
+  /* i bottoni "Get in touch" puntano qui: il margine evita che il nav fisso copra il titolo */
+  .form { background: var(--paper); border: 1px solid var(--hairline); padding: 32px; min-width: 0; scroll-margin-top: 120px; }
   .form__sub { font-size: 13px; color: var(--fog); margin: 8px 0 32px; }
   .form__riga { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 16px; }
   .form__campo { margin-top: 16px; }

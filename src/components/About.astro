@@ -1,49 +1,44 @@
 ---
 import { linguaDa, testi } from '../i18n/index.js';
 
-/** `senzaOcchiello`: la pagina About ha già il suo titolo in testa. */
-interface Props { senzaOcchiello?: boolean }
-const { senzaOcchiello = false } = Astro.props;
-
 const t = testi[linguaDa(Astro.url.pathname)].about;
-
-// Foto dei blocchi 2 e 3: basta caricarle in public/images con questi nomi.
-const fotoBlocchi = ['/images/about-2.jpg', '/images/about-3.jpg'];
 ---
 
+<!-- 1: foto a tutto schermo, come l'hero della Home, con nome e ruolo in basso -->
+<section class="about-hero">
+  <img class="about-hero__foto" src="/images/foto-sara.jpeg" alt={t.fotoAlt} fetchpriority="high" />
+  <div class="about-hero__scrim"></div>
+  <div class="about-hero__testo container">
+    <h1 data-reveal-hero>{t.nome}</h1>
+    <p class="about-hero__ruolo" data-reveal-hero>{t.ruolo}</p>
+  </div>
+</section>
+
 <section class="about" id="about">
-  <!-- 1: testo a sinistra, foto a destra -->
-  <div class="blocco">
-    <div class="blocco__testo" data-reveal>
-      {!senzaOcchiello && <p class="eyebrow">{t.eyebrow}</p>}
-      <h2>{t.titolo}</h2>
-      <p class="lead">{t.lead}</p>
-      <p class="testo">{t.testo1}</p>
-      <p class="testo">{t.testo2}</p>
-      <div class="numeri">
-        {t.numeri.map((n) => (
-          <div><p class="numeri__n">{n.n}</p><p class="numeri__l">{n.l}</p></div>
-        ))}
-      </div>
+  <!-- 2: chi sono -->
+  <div class="presentazione container">
+    <h2 data-reveal>{t.titolo}</h2>
+    <div class="presentazione__testo" data-reveal>
+      {t.paragrafi.map((p) => <p>{p}</p>)}
     </div>
-    <figure class="blocco__foto" data-reveal>
-      <img src="/images/sara.jpg" alt={t.ritrattoAlt} loading="lazy" />
-    </figure>
   </div>
 
-  <!-- 2 e 3: il primo è invertito (foto a sinistra), il secondo torna come l'1 -->
-  {t.blocchi.map((b, i) => (
-    <div class:list={['blocco', { 'blocco--inverso': i === 0 }]}>
-      <div class="blocco__testo" data-reveal>
-        <h2>{b.titolo}</h2>
-        {b.paragrafi.map((p) => <p class="testo">{p}</p>)}
-      </div>
-      <figure class="blocco__foto" data-reveal>
-        <img src={fotoBlocchi[i]} alt={b.fotoAlt} loading="lazy" />
-      </figure>
+  <!-- 3: riquadro a contrasto con il metodo -->
+  <div class="container">
+    <div class="metodo" data-reveal>
+      <h2 class="metodo__titolo">{t.metodo.titolo}</h2>
+      <ul class="metodo__voci">
+        {t.metodo.voci.map((v) => (
+          <li>
+            <h3>{v.titolo}</h3>
+            <p>{v.testo}</p>
+          </li>
+        ))}
+      </ul>
     </div>
-  ))}
+  </div>
 
+  <!-- 4: perché scegliermi -->
   <div class="perche container">
     <h2 class="perche__titolo" data-reveal>{t.perche.titolo}</h2>
     <span class="perche__filetto" aria-hidden="true"></span>
@@ -79,61 +74,91 @@ const fotoBlocchi = ['/images/about-2.jpg', '/images/about-3.jpg'];
       </li>
     </ul>
   </div>
+
+  <!-- 5: contatto; il form sta nella sezione Contatti subito sotto -->
+  <div class="chiusura container" data-reveal>
+    <a class="btn chiusura__cta" href="#form-contatti">{t.cta} <span aria-hidden="true">→</span></a>
+  </div>
 </section>
 
 <style>
-  .about { margin: 48px 0 96px; }
-
-  /* Due colonne a tutta pagina: la foto arriva a filo del bordo, il testo
-     resta allineato al container delle altre sezioni. */
-  .blocco {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    min-height: 600px;
-  }
-
-  /* larga mezzo container: il bordo esterno del testo coincide con quello
-     del container, l'interno lascia 64px di respiro verso la foto */
-  .blocco__testo {
-    width: min(100%, calc(var(--container) / 2));
-    padding: 64px 64px 64px 32px;
-    justify-self: end;
-  }
-  .blocco--inverso .blocco__testo {
-    order: 2;
-    justify-self: start;
-    padding: 64px 32px 64px 64px;
-  }
-
-  .blocco__foto {
-    align-self: stretch;
-    margin: 0;
-    min-height: 600px;
-    background: var(--mist); /* segnaposto finché la foto non c'è */
-  }
-  /* la foto non tocca il centro: 12px per lato, 24px tra una colonna e l'altra */
-  .blocco .blocco__foto { margin-left: 12px; }
-  .blocco--inverso .blocco__foto { margin: 0 12px 0 0; }
-  .blocco__foto img {
-    display: block;
+  /* ───── Foto a tutto schermo ───── */
+  .about-hero { position: relative; height: 100vh; min-height: 620px; background: var(--ink); overflow: hidden; }
+  .about-hero__foto {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    color: transparent; /* niente alt text visibile se la foto manca */
+    /* Sara è sulla sinistra della foto: la tengo in quadro anche nei tagli stretti */
+    object-position: 25% 40%;
+    transform: scale(1.04);
+  }
+  .about-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(var(--scrim), .45) 0%, rgba(var(--scrim), .05) 40%, rgba(var(--scrim), .78) 100%);
+  }
+  .about-hero__testo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 64px;
+    text-align: center;
+  }
+  .about-hero h1 {
+    color: #fff;
+    font-size: clamp(72px, 13vw, 190px);
+    line-height: .85;
+    letter-spacing: .02em;
+  }
+  .about-hero__ruolo {
+    margin-top: 16px;
+    font-size: 15px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.82);
   }
 
-  .lead { font-weight: 500; font-size: 20px; line-height: 1.5; margin: 24px 0; }
-  .eyebrow + h2 { margin-top: 24px; }
-  h2 + .testo { margin-top: 24px; }
-  .testo { margin-bottom: 16px; line-height: 1.7; }
-  .numeri { display: flex; flex-wrap: wrap; border-top: 1px solid var(--hairline); margin-top: 32px; }
-  .numeri > div { flex: 1 1 140px; padding: 24px 24px 0 0; min-width: 0; }
-  .numeri__n { font-family: var(--font-display); font-weight: 400; font-size: 56px; line-height: 1; letter-spacing: 2.25px; }
-  .numeri__l { font-size: 13px; color: var(--fog); margin-top: 8px; }
+  /* ───── Chi sono ───── */
+  .about { padding: 128px 0 96px; }
+  .presentazione {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .presentazione h2 { font-size: 56px; letter-spacing: 2.5px; max-width: 8em; }
+  .presentazione__testo p { line-height: 1.7; font-size: 18px; }
+  .presentazione__testo p + p { margin-top: 20px; }
+
+  /* ───── Riquadro metodo (a contrasto) ───── */
+  .metodo {
+    margin-top: 128px;
+    padding: 72px 64px;
+    background: var(--mist);
+    border-radius: 4px;
+    text-align: center;
+  }
+  .metodo__titolo {
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: .18em;
+  }
+  .metodo__voci {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    list-style: none;
+    margin: 48px auto 0;
+    padding: 0;
+    max-width: 960px;
+  }
+  .metodo__voci h3 { font-size: 26px; color: var(--vino); }
+  .metodo__voci p { margin-top: 12px; line-height: 1.7; }
 
   /* ───── Perché scegliermi ───── */
-  .perche { padding-top: 96px; text-align: center; }
+  .perche { padding-top: 128px; text-align: center; }
   .perche__filetto {
     display: block;
     width: 48px;
@@ -167,22 +192,33 @@ const fotoBlocchi = ['/images/about-2.jpg', '/images/about-3.jpg'];
     line-height: 1.4;
   }
 
-  /* sotto i 900px: ogni blocco è foto sopra e testo sotto, in colonna */
-  @media (max-width: 900px) {
-    .about { margin: 32px 0 64px; }
-    .blocco { display: flex; flex-direction: column; min-height: 0; }
-    .blocco__testo,
-    .blocco--inverso .blocco__testo {
-      order: 2;
-      width: auto;
-      max-width: 34em;
-      padding: 32px 20px 48px;
-    }
-    .blocco .blocco__foto,
-    .blocco--inverso .blocco__foto { order: 1; min-height: 0; margin: 0; }
-    .blocco__foto img { height: 360px; }
+  /* ───── Bottone finale ───── */
+  .chiusura { margin-top: 96px; text-align: center; }
+  .chiusura__cta { text-transform: uppercase; letter-spacing: .09em; }
+  .chiusura__cta span { display: inline-block; margin-left: 6px; transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
+  .chiusura__cta:hover span { transform: translateX(4px); }
+  .chiusura__cta:focus-visible { outline: 2px solid var(--vino); outline-offset: 3px; }
 
-    .perche { padding-top: 64px; }
+  @media (max-width: 900px) {
+    .about-hero__testo { bottom: 48px; }
+    .about-hero__ruolo { font-size: 13px; letter-spacing: .24em; }
+
+    .about { padding: 80px 0 64px; }
+    .presentazione { grid-template-columns: 1fr; gap: 32px; }
+    .presentazione h2 { font-size: 40px; letter-spacing: 2px; }
+    .presentazione__testo p { font-size: 16px; }
+
+    .metodo { margin-top: 80px; padding: 48px 24px; }
+    .metodo__titolo { font-size: 26px; letter-spacing: .12em; }
+    .metodo__voci { grid-template-columns: 1fr; gap: 32px; margin-top: 32px; }
+    .metodo__voci h3 { font-size: 24px; }
+
+    .perche { padding-top: 80px; }
     .perche__voci { grid-template-columns: 1fr; gap: 40px; }
+    .chiusura { margin-top: 64px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chiusura__cta span { transition: none; }
   }
 </style>
