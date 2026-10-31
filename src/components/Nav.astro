@@ -18,7 +18,7 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
 <nav class:list={['nav', { 'nav--over': trasparente }]} data-trasparente={trasparente ? 'true' : 'false'}>
   <div class="nav__inner container">
     <a class="nav__mark" href={t.nav[0].href} aria-label={site.nome}><Logo /></a>
-    <div class="nav__links">
+    <div class="nav__links" id="nav-links">
       {t.nav.slice(1).map((v) => (
         <a href={v.href} class:list={['nav__link', { 'is-active': attiva(v.href) }]}>{v.label}</a>
       ))}
@@ -28,6 +28,15 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
         <img src={t.bandiera} alt={t.bandieraAlt} width="24" height="24" />
       </a>
       <a class="btn" href={t.nav[3].href}>{t.prenotaOra}</a>
+      <button
+        class="nav__toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-links"
+        aria-label={t.menu ?? 'Menu'}
+      >
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
@@ -116,10 +125,101 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
   .nav--over:not(.is-scrolled) .nav__link { color: rgba(255,255,255,.72); }
   .nav--over:not(.is-scrolled) .nav__lingua:focus-visible { outline-color: #fff; }
 
+  /* pulsante hamburger: visibile solo sotto i 760px */
+  .nav__toggle {
+    display: none;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    transition: color 240ms ease;
+  }
+  .nav__toggle span {
+    position: absolute;
+    left: 9px;
+    right: 9px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 280ms cubic-bezier(.22, 1, .36, 1), opacity 160ms ease;
+  }
+  .nav__toggle span:nth-child(1) { top: 12px; }
+  .nav__toggle span:nth-child(2) { top: 19px; }
+  .nav__toggle span:nth-child(3) { top: 26px; }
+  .nav__toggle:focus-visible { outline: 2px solid var(--vino); outline-offset: 2px; }
+
+  /* da tre barre a X quando il menù è aperto */
+  .nav.is-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
+  .nav.is-open .nav__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav--over:not(.is-scrolled) .nav__toggle { color: #fff; }
+  .nav--over:not(.is-scrolled) .nav__toggle:focus-visible { outline-color: #fff; }
+
   @media (max-width: 760px) {
-    .nav__links { display: none; }
     .nav__inner { padding-top: 14px; padding-bottom: 14px; }
     .nav__mark { height: 48px; }
+    .nav__azioni { gap: 12px; }
+    .nav__toggle { display: block; }
+
+    /* pannello a tutta larghezza sotto la barra */
+    .nav__links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      max-height: calc(100dvh - 80px);
+      overflow-y: auto;
+      background: var(--paper);
+      border-bottom: 1px solid var(--hairline);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+    }
+    /* la transizione c'è solo mentre si apre/chiude col pulsante, mai al ridimensionamento */
+    .nav.is-anim .nav__links {
+      transition:
+        opacity 200ms ease,
+        transform 280ms cubic-bezier(.22, 1, .36, 1),
+        visibility 0s linear 280ms;
+    }
+    .nav.is-open .nav__links {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .nav.is-anim.is-open .nav__links { transition-delay: 0s; }
+    .nav__link {
+      font-size: 16px;
+      padding: 18px 24px;
+      border-top: 1px solid var(--hairline);
+    }
+    .nav__link:first-child { border-top: 0; }
+    .nav__link::after { left: 24px; right: auto; width: 28px; bottom: 10px; }
+
+    /* menù aperto sopra l'hero: la barra diventa piena e i colori tornano scuri */
+    .nav--over.is-open:not(.is-scrolled) {
+      background: var(--paper);
+      border-bottom-color: var(--hairline);
+    }
+    .nav--over.is-open:not(.is-scrolled) .nav__mark { color: var(--vino); }
+    .nav--over.is-open:not(.is-scrolled) .nav__mark:focus-visible,
+    .nav--over.is-open:not(.is-scrolled) .nav__toggle:focus-visible,
+    .nav--over.is-open:not(.is-scrolled) .nav__lingua:focus-visible { outline-color: var(--vino); }
+    .nav--over.is-open:not(.is-scrolled) .nav__toggle { color: var(--ink); }
+    .nav--over.is-open:not(.is-scrolled) .nav__link { color: var(--ink); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav__toggle span,
+    .nav__links { transition: none !important; }
   }
   /* telefoni stretti: il logo orizzontale e i due pulsanti devono stare su una riga */
   @media (max-width: 380px) {
@@ -136,5 +236,48 @@ const attiva = (href: string) => path.replace(/\/+$/, '') === href.replace(/\/+$
     };
     window.addEventListener('scroll', aggiorna, { passive: true });
     aggiorna();
+  }
+
+  // menù hamburger (mobile)
+  const toggle = nav?.querySelector<HTMLButtonElement>('.nav__toggle');
+  const pannello = nav?.querySelector<HTMLElement>('.nav__links');
+  if (nav && toggle && pannello) {
+    let timer: number | undefined;
+    const imposta = (aperto: boolean, anima = true) => {
+      window.clearTimeout(timer);
+      if (anima) {
+        nav.classList.add('is-anim');
+        timer = window.setTimeout(() => nav.classList.remove('is-anim'), 340);
+      } else {
+        nav.classList.remove('is-anim');
+      }
+      nav.classList.toggle('is-open', aperto);
+      toggle.setAttribute('aria-expanded', String(aperto));
+    };
+
+    toggle.addEventListener('click', () => {
+      imposta(!nav.classList.contains('is-open'));
+    });
+
+    // click su una voce o fuori dalla nav: chiude
+    pannello.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) imposta(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target as Node)) imposta(false);
+    });
+
+    // Esc chiude e riporta il focus sul pulsante
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        imposta(false);
+        toggle.focus();
+      }
+    });
+
+    // tornando a desktop il menù si resetta
+    window.matchMedia('(min-width: 761px)').addEventListener('change', (e) => {
+      if (e.matches) imposta(false, false);
+    });
   }
 </script>
