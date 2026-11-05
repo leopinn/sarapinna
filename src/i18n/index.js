@@ -123,6 +123,8 @@ export const testi = {
       indicazioneDesktop: 'Passa sopra una foto per scoprirla, clicca per i dettagli',
       indicazioneMobile: 'Tocca una foto per i dettagli',
       apri: 'Scopri',
+      fotoPrecedente: 'Foto precedente',
+      fotoSuccessiva: 'Foto successiva',
       cta: 'Richiedi informazioni',
       prenotaAirbnb: 'Prenota su Airbnb',
       nota:
@@ -287,6 +289,8 @@ export const testi = {
       indicazioneDesktop: 'Hover a photo to discover it, click for the details',
       indicazioneMobile: 'Tap a photo for the details',
       apri: 'Discover',
+      fotoPrecedente: 'Previous photo',
+      fotoSuccessiva: 'Next photo',
       cta: 'Ask for details',
       prenotaAirbnb: 'Book on Airbnb',
       nota:

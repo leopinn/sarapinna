@@ -1,5 +1,6 @@
 ---
 import { esperienze } from '../data/site.js';
+import { fotoEsperienza } from '../data/fotoEsperienze.js';
 import { linguaDa, testi } from '../i18n/index.js';
 
 const lingua = linguaDa(Astro.url.pathname);
@@ -11,7 +12,7 @@ const elenco = esperienze.map((e) => ({
   id: e.id,
   numero: e.numero,
   titolo: e.titolo,
-  immagine: e.immagine,
+  immagine: fotoEsperienza(e.numero)[0] ?? e.immagine,
   href: `${paginaEsperienze}#${e.id}`,
 }));
 ---
